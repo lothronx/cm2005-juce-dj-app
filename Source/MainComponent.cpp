@@ -45,15 +45,12 @@ void MainComponent::prepareToPlay(int samplesPerBlockExpected, double sampleRate
     //    phase = 0.0;
     //    dPhase = 0.001;
 
-    formatManager.registerBasicFormats();
-
-    transportSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
-    resampleSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
+    player1.prepareToPlay(samplesPerBlockExpected, sampleRate);
 }
 
 void MainComponent::getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToFill) {
 
-    resampleSource.getNextAudioBlock(bufferToFill);
+    player1.getNextAudioBlock(bufferToFill);
 
 //    auto *leftChan = bufferToFill.buffer->getWritePointer(0, bufferToFill.startSample);
 //    auto *rightChan = bufferToFill.buffer->getWritePointer(1, bufferToFill.startSample);
@@ -67,7 +64,7 @@ void MainComponent::getNextAudioBlock(const juce::AudioSourceChannelInfo &buffer
 }
 
 void MainComponent::releaseResources() {
-    transportSource.releaseResources();
+    player1.releaseResources();
 }
 
 //==============================================================================
@@ -93,34 +90,24 @@ void MainComponent::resized() {
 
 void MainComponent::buttonClicked(juce::Button *button) {
     if (button == &playButton) {
-        transportSource.start();
+        player1.start();
     }
     if (button == &stopButton) {
-        transportSource.stop();
+        player1.stop();
     }
     if (button == &loadButton) {
         fChooser.launchAsync(FileBrowserComponent::canSelectFiles, [this](const FileChooser &chooser) {
-            loadURL(URL{chooser.getResult()});
+            player1.loadURL(URL{chooser.getResult()});
         });
     }
 }
 
 void MainComponent::sliderValueChanged(juce::Slider *slider) {
     if (slider == &volSlider) {
-        transportSource.setGain(static_cast<float>(volSlider.getValue()));
+
     }
     if (slider == &speedSlider) {
-        resampleSource.setResamplingRatio(speedSlider.getValue());
+
     }
 }
 
-void MainComponent::loadURL(const URL &audioURL) {
-    auto *reader = formatManager.createReaderFor(
-            audioURL.createInputStream(juce::URL::InputStreamOptions(juce::URL::ParameterHandling::inAddress)));
-
-    if (reader != nullptr) {
-        std::unique_ptr<AudioFormatReaderSource> newSource(new AudioFormatReaderSource(reader, true));
-        transportSource.setSource(newSource.get(), 0, nullptr, reader->sampleRate);
-        readerSource = std::move(newSource);
-    }
-}

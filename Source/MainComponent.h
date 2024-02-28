@@ -1,6 +1,7 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include "DJAudioPlayer.h"
 
 //==============================================================================
 /*
@@ -41,18 +42,8 @@ private:
     TextButton loadButton{"Load"};
     Slider volSlider;
     Slider speedSlider;
-
-//    double phase;
-//    double dPhase;
-
-    AudioFormatManager formatManager;
-    std::unique_ptr<AudioFormatReaderSource> readerSource;
-    AudioTransportSource transportSource;
-    ResamplingAudioSource resampleSource{&transportSource, false, 2};
-
-    void loadURL(const URL &audioURL);
-
     juce::FileChooser fChooser{"Select a file..."};
+    DJAudioPlayer player1;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };
