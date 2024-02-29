@@ -1,5 +1,4 @@
 #include "MainComponent.h"
-
 #include <utility>
 
 //==============================================================================
@@ -23,6 +22,7 @@ MainComponent::MainComponent() {
     addAndMakeVisible(loadButton);
     addAndMakeVisible(volSlider);
     addAndMakeVisible(speedSlider);
+    addAndMakeVisible(positionSlider);
 
     playButton.addListener(this);
     stopButton.addListener(this);
@@ -31,8 +31,11 @@ MainComponent::MainComponent() {
     volSlider.setRange(0.0, 1.0);
     volSlider.setValue(0.5);
     speedSlider.addListener(this);
-    speedSlider.setRange(0.5, 2.0);
+    speedSlider.setRange(0.0, 10.0);
     speedSlider.setValue(1.0);
+    positionSlider.addListener(this);
+    positionSlider.setRange(0.0, 1.0);
+    positionSlider.setValue(0.0);
 }
 
 MainComponent::~MainComponent() {
@@ -79,13 +82,14 @@ void MainComponent::resized() {
     // This is called when the MainContentComponent is resized.
     // If you add any child components, this is where you should
     // update their positions.
-    auto h = getHeight() / 5;
+    auto h = getHeight() / 6;
     loadButton.setBounds(getWidth() / 2 - 50, 0, 100, 100);
     playButton.setBounds(getWidth() / 2 - 50, h, 100, 100);
     stopButton.setBounds(getWidth() / 2 - 50, h * 2, 100, 100);
 
     volSlider.setBounds(getWidth() / 4, h * 3, getWidth() / 2, 100);
     speedSlider.setBounds(getWidth() / 4, h * 4, getWidth() / 2, 100);
+    positionSlider.setBounds(getWidth() / 4, h * 5, getWidth() / 2, 100);
 }
 
 void MainComponent::buttonClicked(juce::Button *button) {
@@ -104,10 +108,13 @@ void MainComponent::buttonClicked(juce::Button *button) {
 
 void MainComponent::sliderValueChanged(juce::Slider *slider) {
     if (slider == &volSlider) {
-
+        player1.setGain(slider->getValue());
     }
     if (slider == &speedSlider) {
-
+        player1.setSpeed(slider->getValue());
+    }
+    if (slider == &positionSlider) {
+        player1.setPosition(slider->getValue());
     }
 }
 

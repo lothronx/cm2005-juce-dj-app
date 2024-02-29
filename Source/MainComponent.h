@@ -42,6 +42,7 @@ private:
     TextButton loadButton{"Load"};
     Slider volSlider;
     Slider speedSlider;
+    Slider positionSlider;
     juce::FileChooser fChooser{"Select a file..."};
     DJAudioPlayer player1;
 
