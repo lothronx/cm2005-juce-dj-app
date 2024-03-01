@@ -1,5 +1,4 @@
 #include "MainComponent.h"
-#include <utility>
 
 //==============================================================================
 MainComponent::MainComponent() {
@@ -17,12 +16,6 @@ MainComponent::MainComponent() {
         setAudioChannels(2, 2);
     }
 
-//    playButton.addListener(this);
-//    stopButton.addListener(this);
-//    loadButton.addListener(this);
-//    volSlider.addListener(this);
-//    speedSlider.addListener(this);
-//    positionSlider.addListener(this);
     addAndMakeVisible(deckGUI1);
     addAndMakeVisible(deckGUI2);
 
@@ -66,29 +59,4 @@ void MainComponent::resized() {
     deckGUI2.setBounds(getWidth() / 2, 0, getWidth() / 2, getHeight());
 }
 
-void MainComponent::buttonClicked(juce::Button *button) {
-//    if (button == &playButton) {
-//        player1.start();
-//    }
-//    if (button == &stopButton) {
-//        player1.stop();
-//    }
-//    if (button == &loadButton) {
-//        fChooser.launchAsync(FileBrowserComponent::canSelectFiles, [this](const FileChooser &chooser) {
-//            player1.loadURL(URL{chooser.getResult()});
-//        });
-//    }
-}
-
-void MainComponent::sliderValueChanged(juce::Slider *slider) {
-//    if (slider == &volSlider) {
-//        player1.setGain(slider->getValue());
-//    }
-//    if (slider == &speedSlider) {
-//        player1.setSpeed(slider->getValue());
-//    }
-//    if (slider == &positionSlider) {
-//        player1.setPosition(slider->getValue());
-//    }
-}
 
