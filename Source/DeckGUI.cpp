@@ -62,3 +62,11 @@ void DeckGUI::sliderValueChanged(juce::Slider *slider) {
         player->setPosition(slider->getValue());
     }
 }
+
+bool DeckGUI::isInterestedInFileDrag(const StringArray &files) {
+    return true;
+}
+
+void DeckGUI::filesDropped(const StringArray &files, int x, int y) {
+    player->loadURL(URL{File{files[0]}});
+}
