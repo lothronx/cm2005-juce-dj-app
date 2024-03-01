@@ -29,10 +29,15 @@ MainComponent::~MainComponent() {
 //==============================================================================
 void MainComponent::prepareToPlay(int samplesPerBlockExpected, double sampleRate) {
     player1.prepareToPlay(samplesPerBlockExpected, sampleRate);
+    player2.prepareToPlay(samplesPerBlockExpected, sampleRate);
+    mixerSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
+
+    mixerSource.addInputSource(&player1, false);
+    mixerSource.addInputSource(&player2, false);
 }
 
 void MainComponent::getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToFill) {
-    player1.getNextAudioBlock(bufferToFill);
+    mixerSource.getNextAudioBlock(bufferToFill);
 
 //    auto *leftChan = bufferToFill.buffer->getWritePointer(0, bufferToFill.startSample);
 //    auto *rightChan = bufferToFill.buffer->getWritePointer(1, bufferToFill.startSample);
@@ -47,6 +52,8 @@ void MainComponent::getNextAudioBlock(const juce::AudioSourceChannelInfo &buffer
 
 void MainComponent::releaseResources() {
     player1.releaseResources();
+    player2.releaseResources();
+    mixerSource.releaseResources();
 }
 
 //==============================================================================
