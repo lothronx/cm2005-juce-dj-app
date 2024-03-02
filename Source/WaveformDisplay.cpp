@@ -14,4 +14,8 @@ void WaveformDisplay::resized() {
     Component::resized();
 }
 
+void WaveformDisplay::loadURL(URL audioURL) {
+    audioThumb.clear();
+    audioThumb.setSource(new URLInputSource(audioURL));
+}
 

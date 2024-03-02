@@ -53,6 +53,7 @@ void DeckGUI::buttonClicked(juce::Button *button) {
     if (button == &loadButton) {
         fChooser.launchAsync(FileBrowserComponent::canSelectFiles, [this](const FileChooser &chooser) {
             player->loadURL(URL{chooser.getResult()});
+            waveformDisplay.loadURL(URL{chooser.getResult()});
         });
     }
 }
