@@ -26,7 +26,7 @@ DeckGUI::DeckGUI(DJAudioPlayer *_player,
     speedSlider.addListener(this);
     positionSlider.addListener(this);
 
-    startTimer(500);
+    startTimer(100);
 }
 
 

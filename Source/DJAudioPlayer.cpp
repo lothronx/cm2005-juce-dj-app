@@ -57,7 +57,10 @@ void DJAudioPlayer::setPositionRelative(double relativePosition) {
 }
 
 double DJAudioPlayer::getPositionRelative() const {
-    return transportSource.getCurrentPosition() / transportSource.getLengthInSeconds();
+    if(static_cast<bool>(transportSource.getLengthInSeconds())) {
+        return transportSource.getCurrentPosition() / transportSource.getLengthInSeconds();
+    }
+    return 0.0;
 }
 
 void DJAudioPlayer::start() {
