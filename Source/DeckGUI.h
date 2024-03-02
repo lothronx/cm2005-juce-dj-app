@@ -10,7 +10,9 @@ class DeckGUI
           public juce::Slider::Listener,
           public juce::FileDragAndDropTarget {
 public:
-    explicit DeckGUI(DJAudioPlayer *player);
+    explicit DeckGUI(DJAudioPlayer *player,
+                     AudioFormatManager &formatManagerToUse,
+                     AudioThumbnailCache &cacheToUse);
 
     void paint(juce::Graphics &g) override;
     void resized() override;

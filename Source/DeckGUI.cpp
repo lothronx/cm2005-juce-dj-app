@@ -1,7 +1,10 @@
 #include "DeckGUI.h"
 
-DeckGUI::DeckGUI(DJAudioPlayer *_player)
-        : player{_player} {
+DeckGUI::DeckGUI(DJAudioPlayer *_player,
+                 AudioFormatManager &formatManagerToUse,
+                 AudioThumbnailCache &cacheToUse)
+        : player{_player}
+        , waveformDisplay{formatManagerToUse, cacheToUse} {
     addAndMakeVisible(playButton);
     addAndMakeVisible(stopButton);
     addAndMakeVisible(loadButton);

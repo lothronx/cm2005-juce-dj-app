@@ -1,8 +1,8 @@
 #include "WaveformDisplay.h"
 
-WaveformDisplay::WaveformDisplay() {
-
-}
+WaveformDisplay::WaveformDisplay(AudioFormatManager &formatManagerToUse,
+                                 AudioThumbnailCache &cacheToUse)
+                                 : audioThumb{1000, formatManagerToUse, cacheToUse} {}
 
 void WaveformDisplay::paint(Graphics &g) {
     g.setColour(Colours::orange);
