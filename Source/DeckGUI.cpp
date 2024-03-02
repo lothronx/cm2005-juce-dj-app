@@ -3,8 +3,7 @@
 DeckGUI::DeckGUI(DJAudioPlayer *_player,
                  AudioFormatManager &formatManagerToUse,
                  AudioThumbnailCache &cacheToUse)
-        : player{_player}
-        , waveformDisplay{formatManagerToUse, cacheToUse} {
+        : player{_player}, waveformDisplay{formatManagerToUse, cacheToUse} {
     addAndMakeVisible(playButton);
     addAndMakeVisible(stopButton);
     addAndMakeVisible(loadButton);
@@ -26,6 +25,13 @@ DeckGUI::DeckGUI(DJAudioPlayer *_player,
     volSlider.addListener(this);
     speedSlider.addListener(this);
     positionSlider.addListener(this);
+
+    startTimer(500);
+}
+
+
+DeckGUI::~DeckGUI() {
+    stopTimer();
 }
 
 void DeckGUI::paint(Graphics &g) {
@@ -51,7 +57,8 @@ void DeckGUI::buttonClicked(juce::Button *button) {
         player->stop();
     }
     if (button == &loadButton) {
-        fChooser.launchAsync(FileBrowserComponent::canSelectFiles, [this](const FileChooser &chooser) {
+        fChooser.launchAsync(FileBrowserComponent::canSelectFiles,
+                             [this](const FileChooser &chooser) {
             player->loadURL(URL{chooser.getResult()});
             waveformDisplay.loadURL(URL{chooser.getResult()});
         });
@@ -66,7 +73,7 @@ void DeckGUI::sliderValueChanged(juce::Slider *slider) {
         player->setSpeed(slider->getValue());
     }
     if (slider == &positionSlider) {
-        player->setPosition(slider->getValue());
+        player->setPositionRelative(slider->getValue());
     }
 }
 
@@ -77,3 +84,9 @@ bool DeckGUI::isInterestedInFileDrag(const StringArray &files) {
 void DeckGUI::filesDropped(const StringArray &files, int x, int y) {
     player->loadURL(URL{File{files[0]}});
 }
+
+void DeckGUI::timerCallback() {
+    positionSlider.setValue(player->getPositionRelative(), dontSendNotification);
+    waveformDisplay.setPositionRelative(player->getPositionRelative());
+}
+

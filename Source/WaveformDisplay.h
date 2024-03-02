@@ -9,17 +9,20 @@ public:
                     AudioThumbnailCache &cacheToUse);
 
     void paint(juce::Graphics &g) override;
-
     void resized() override;
 
     void changeListenerCallback(juce::ChangeBroadcaster *source) override;
 
     void loadURL(const juce::URL& audioURL);
 
+    void setPositionRelative(double relativePosition);
+
 private:
     AudioThumbnail audioThumb;
 
     bool fileLoaded;
+
+    double position;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(WaveformDisplay)
 };
