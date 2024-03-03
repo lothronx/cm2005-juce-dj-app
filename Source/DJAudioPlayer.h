@@ -16,11 +16,13 @@ public:
     void setSpeed(double ratio);
     void setPositionRelative(double relativePosition);
     double getPositionRelative() const;
-    void setLooping(bool shouldLoop);
 
     bool isLoaded() const;
+
     bool isPlaying() const;
+
     bool isLooping() const;
+    void setLooping(bool shouldLoop);
 
     void start();
     void stop();

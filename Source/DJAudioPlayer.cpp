@@ -14,6 +14,10 @@ void DJAudioPlayer::getNextAudioBlock(const juce::AudioSourceChannelInfo &buffer
         return;
     }
     resampleSource.getNextAudioBlock(bufferToFill);
+
+    if (transportSource.hasStreamFinished()) {
+        transportSource.setPosition(0);
+    }
 }
 
 void DJAudioPlayer::releaseResources() {
@@ -57,7 +61,7 @@ void DJAudioPlayer::setPositionRelative(double relativePosition) {
 }
 
 double DJAudioPlayer::getPositionRelative() const {
-    if(static_cast<bool>(transportSource.getLengthInSeconds())) {
+    if (static_cast<bool>(transportSource.getLengthInSeconds())) {
         return transportSource.getCurrentPosition() / transportSource.getLengthInSeconds();
     }
     return 0.0;
@@ -86,6 +90,5 @@ bool DJAudioPlayer::isLooping() const {
 void DJAudioPlayer::setLooping(bool shouldLoop) {
     readerSource->setLooping(shouldLoop);
 }
-
 
 

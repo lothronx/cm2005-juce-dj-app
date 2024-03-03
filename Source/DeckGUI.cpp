@@ -4,9 +4,9 @@ DeckGUI::DeckGUI(DJAudioPlayer *_player,
                  AudioFormatManager &formatManagerToUse,
                  AudioThumbnailCache &cacheToUse)
         : player{_player}, waveformDisplay{formatManagerToUse, cacheToUse} {
-    addAndMakeVisible(loopButton);
-    addAndMakeVisible(playPauseButton);
     addAndMakeVisible(loadButton);
+    addAndMakeVisible(playPauseButton);
+    addAndMakeVisible(loopButton);
     addAndMakeVisible(volSlider);
     addAndMakeVisible(speedSlider);
     addAndMakeVisible(positionSlider);
@@ -19,9 +19,9 @@ DeckGUI::DeckGUI(DJAudioPlayer *_player,
     positionSlider.setRange(0.0, 1.0);
     positionSlider.setValue(0.0);
 
-    loopButton.addListener(this);
-    playPauseButton.addListener(this);
     loadButton.addListener(this);
+    playPauseButton.addListener(this);
+    loopButton.addListener(this);
     volSlider.addListener(this);
     speedSlider.addListener(this);
     positionSlider.addListener(this);
@@ -108,5 +108,10 @@ void DeckGUI::filesDropped(const StringArray &files, int x, int y) {
 void DeckGUI::timerCallback() {
     positionSlider.setValue(player->getPositionRelative(), dontSendNotification);
     waveformDisplay.setPositionRelative(player->getPositionRelative());
+
+    if (!player->isPlaying()) {
+        playPauseButton.removeColour(TextButton::buttonColourId);
+        playPauseButton.setButtonText("Play");
+    }
 }
 
