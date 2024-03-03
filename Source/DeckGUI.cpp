@@ -5,7 +5,6 @@ DeckGUI::DeckGUI(DJAudioPlayer *_player,
                  AudioThumbnailCache &cacheToUse)
         : player{_player}, waveformDisplay{formatManagerToUse, cacheToUse} {
     addAndMakeVisible(playButton);
-    addAndMakeVisible(stopButton);
     addAndMakeVisible(loadButton);
     addAndMakeVisible(volSlider);
     addAndMakeVisible(speedSlider);
@@ -20,7 +19,6 @@ DeckGUI::DeckGUI(DJAudioPlayer *_player,
     positionSlider.setValue(0.0);
 
     playButton.addListener(this);
-    stopButton.addListener(this);
     loadButton.addListener(this);
     volSlider.addListener(this);
     speedSlider.addListener(this);
@@ -42,7 +40,6 @@ void DeckGUI::resized() {
     auto h = getHeight() / 8;
     loadButton.setBounds(0, 0, getWidth(), h);
     playButton.setBounds(0, h, getWidth(), h);
-    stopButton.setBounds(0, h * 2, getWidth(), h);
     volSlider.setBounds(0, h * 3, getWidth(), h);
     speedSlider.setBounds(0, h * 4, getWidth(), h);
     positionSlider.setBounds(0, h * 5, getWidth(), h);
@@ -51,11 +48,18 @@ void DeckGUI::resized() {
 
 void DeckGUI::buttonClicked(juce::Button *button) {
     if (button == &playButton) {
-        player->start();
+
+        if(player->isPlaying()) {
+            player->stop();
+            button->setButtonText("Play");
+            button->removeColour(TextButton::buttonColourId);
+        }else if(player->isLoaded()){
+            player->start();
+            button->setButtonText("Pause");
+            button->setColour(TextButton::buttonColourId, Colours::darkred);
+        }
     }
-    if (button == &stopButton) {
-        player->stop();
-    }
+
     if (button == &loadButton) {
         fChooser.launchAsync(FileBrowserComponent::canSelectFiles,
                              [this](const FileChooser &chooser) {

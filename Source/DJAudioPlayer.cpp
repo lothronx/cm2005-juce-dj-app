@@ -71,4 +71,13 @@ void DJAudioPlayer::stop() {
     transportSource.stop();
 }
 
+bool DJAudioPlayer::isLoaded() const {
+    return static_cast<bool>(readerSource);
+}
+
+bool DJAudioPlayer::isPlaying() const {
+    return transportSource.isPlaying();
+}
+
+
 

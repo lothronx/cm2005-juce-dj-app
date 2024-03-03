@@ -30,7 +30,6 @@ public:
 
 private:
     TextButton playButton{"Play"};
-    TextButton stopButton{"Stop"};
     TextButton loadButton{"Load"};
     Slider volSlider;
     Slider speedSlider;

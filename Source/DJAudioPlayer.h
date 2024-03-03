@@ -17,6 +17,8 @@ public:
     void setPositionRelative(double relativePosition);
     double getPositionRelative() const;
 
+    bool isLoaded() const;
+    bool isPlaying() const;
     void start();
     void stop();
 
