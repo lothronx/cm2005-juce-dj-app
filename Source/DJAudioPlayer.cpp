@@ -79,5 +79,13 @@ bool DJAudioPlayer::isPlaying() const {
     return transportSource.isPlaying();
 }
 
+bool DJAudioPlayer::isLooping() const {
+    return transportSource.isLooping();
+}
+
+void DJAudioPlayer::setLooping(bool shouldLoop) {
+    readerSource->setLooping(shouldLoop);
+}
+
 
 

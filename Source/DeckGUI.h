@@ -29,8 +29,10 @@ public:
     void timerCallback() override;
 
 private:
-    TextButton playButton{"Play"};
     TextButton loadButton{"Load"};
+    TextButton playPauseButton{"Play"};
+    TextButton loopButton{"Loop"};
+
     Slider volSlider;
     Slider speedSlider;
     Slider positionSlider;

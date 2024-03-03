@@ -65,6 +65,7 @@ target_sources(Otodecks
         Source/WaveformDisplay.cpp
         Source/DeckGUI.cpp
         Source/PlaylistComponent.cpp
+        Source/SpinningDisc.cpp
 )
 
 # `target_compile_definitions` adds some preprocessor definitions to our target. In a Projucer
