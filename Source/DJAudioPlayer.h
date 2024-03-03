@@ -13,7 +13,7 @@ public:
     void loadURL(const juce::URL &audioURL);
 
     void setGain(double gain);
-    void setSpeed(double ratio);
+    void setTempo(double relativeSpeedInPercent);
     void setPositionRelative(double relativePosition);
     double getPositionRelative() const;
 

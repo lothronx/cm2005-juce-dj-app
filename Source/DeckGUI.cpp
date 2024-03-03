@@ -4,44 +4,48 @@ DeckGUI::DeckGUI(DJAudioPlayer *_player,
                  AudioFormatManager &formatManagerToUse,
                  AudioThumbnailCache &cacheToUse,
                  const Colour &_colour)
-        : player{_player}, colour{_colour}, waveformDisplay{formatManagerToUse, cacheToUse, _colour} {
+        : player{_player}, colour{_colour}, customLookAndFeel{_colour},
+          waveformDisplay{formatManagerToUse, cacheToUse, _colour} {
+
+    positionSlider.setRange(0.0, 1.0);
+    positionSlider.setValue(0.0);
+    positionSlider.setSliderStyle(Slider::SliderStyle::LinearBar);
+    positionSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
+    positionSlider.setLookAndFeel(&customLookAndFeel);
+
+    speedLabel.setText("Tempo", dontSendNotification);
+    speedLabel.attachToComponent(&speedSlider, false);
+
+    speedSlider.setNormalisableRange(NormalisableRange<double>(-50, 50, 1));
+    speedSlider.setValue(0.0);
+    speedSlider.setSliderStyle(Slider::SliderStyle::LinearVertical);
+    speedSlider.setTextBoxStyle(Slider::TextBoxBelow, false, 100, 20);
+    speedSlider.setTextValueSuffix(" %");
+    speedSlider.setLookAndFeel(&customLookAndFeel);
+
+    volLabel.setText("Volume", dontSendNotification);
+    volLabel.attachToComponent(&volSlider, false);
+
+    volSlider.setRange(0.0, 1.0);
+    volSlider.setValue(0.5);
+    volSlider.setSliderStyle(Slider::SliderStyle::Rotary);
+    volSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
 
     addAndMakeVisible(waveformDisplay);
     addAndMakeVisible(positionSlider);
-    addAndMakeVisible(speedSlider);
     addAndMakeVisible(speedLabel);
+    addAndMakeVisible(speedSlider);
     addAndMakeVisible(volSlider);
     addAndMakeVisible(loadButton);
     addAndMakeVisible(playPauseButton);
     addAndMakeVisible(loopButton);
 
     positionSlider.addListener(this);
-    volSlider.addListener(this);
     speedSlider.addListener(this);
+    volSlider.addListener(this);
     loadButton.addListener(this);
     playPauseButton.addListener(this);
     loopButton.addListener(this);
-
-    positionSlider.setRange(0.0, 1.0);
-    positionSlider.setValue(0.0);
-    positionSlider.setSliderStyle(Slider::SliderStyle::LinearBar);
-    positionSlider.setColour(Slider::ColourIds::trackColourId, Colours::black.withAlpha(0.3f));
-    positionSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
-
-    speedSlider.setNormalisableRange(NormalisableRange<double>(0.5, 2.0, 0.01));
-    speedSlider.setValue(1.0);
-    speedSlider.setSkewFactorFromMidPoint(1.0);
-    speedSlider.setSliderStyle(Slider::SliderStyle::LinearVertical);
-    speedSlider.setColour(Slider::ColourIds::trackColourId, colour.withAlpha(0.6f));
-    speedSlider.setColour(Slider::ColourIds::thumbColourId, colour);
-    speedSlider.setTextBoxStyle(Slider::TextBoxBelow, false, 100, 20);
-
-    speedLabel.setText("Pitch", dontSendNotification);
-    speedLabel.attachToComponent(&speedSlider, false);
-
-    volSlider.setRange(0.0, 1.0);
-    volSlider.setValue(0.5);
-    volSlider.setSliderStyle(Slider::SliderStyle::LinearVertical);
 
     startTimer(100);
 }
@@ -64,7 +68,8 @@ void DeckGUI::resized() {
     positionSlider.setBounds(0, 0, getWidth(), h * 2);
 
     speedSlider.setBounds(w * 9, h * 3, w, h * 4);
-    volSlider.setBounds(w * 8, h * 3, w, h * 4);
+
+    volSlider.setBounds(w * 7, h * 3, w * 2, h * 4);
 
     loadButton.setBounds(w, h * 8, w * 2, h);
     playPauseButton.setBounds(w * 4, h * 8, w * 2, h);
@@ -107,7 +112,7 @@ void DeckGUI::sliderValueChanged(juce::Slider *slider) {
         player->setGain(slider->getValue());
     }
     if (slider == &speedSlider) {
-        player->setSpeed(slider->getValue());
+        player->setTempo(slider->getValue());
     }
     if (slider == &positionSlider) {
         player->setPositionRelative(slider->getValue());
@@ -124,7 +129,6 @@ void DeckGUI::filesDropped(const StringArray &files, int x, int y) {
 
 void DeckGUI::timerCallback() {
     positionSlider.setValue(player->getPositionRelative(), dontSendNotification);
-    waveformDisplay.setPositionRelative(player->getPositionRelative());
 
     if (!player->isPlaying()) {
         playPauseButton.removeColour(TextButton::buttonColourId);

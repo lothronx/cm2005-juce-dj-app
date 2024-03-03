@@ -4,6 +4,10 @@
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1">
   <MAINGROUP id="fQfD9P" name="Otodecks">
     <GROUP id="{BE43F6B4-A195-393A-C0DE-2A4FD161CF4E}" name="Source">
+      <FILE id="zRPpV5" name="CustomLookAndFeel.cpp" compile="1" resource="0"
+            file="Source/CustomLookAndFeel.cpp"/>
+      <FILE id="SySDW2" name="CustomLookAndFeel.h" compile="0" resource="0"
+            file="Source/CustomLookAndFeel.h"/>
       <FILE id="eJ8XkG" name="SpinningDisc.cpp" compile="1" resource="0"
             file="Source/SpinningDisc.cpp"/>
       <FILE id="mfJ2Fj" name="SpinningDisc.h" compile="0" resource="0" file="Source/SpinningDisc.h"/>

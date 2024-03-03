@@ -46,13 +46,10 @@ void DJAudioPlayer::setGain(double gain) {
     }
 }
 
-void DJAudioPlayer::setSpeed(double ratio) {
-    if (ratio < 0 || ratio > 100) {
-        std::cout << "DJAudioPlayer::setSpeed: warning set speed " << ratio << " out of range" << std::endl;
-        return;
-    } else {
-        resampleSource.setResamplingRatio(ratio);
-    }
+void DJAudioPlayer::setTempo(double relativeSpeedInPercent) {
+    double tempo = 1 + (relativeSpeedInPercent / 100);
+    resampleSource.setResamplingRatio(tempo);
+
 }
 
 void DJAudioPlayer::setPositionRelative(double relativePosition) {

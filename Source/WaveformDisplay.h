@@ -16,14 +16,10 @@ public:
 
     void loadURL(const juce::URL& audioURL);
 
-    void setPositionRelative(double relativePosition);
-
 private:
     AudioThumbnail audioThumb;
 
     bool fileLoaded;
-
-    double position;
 
     juce::Colour colour;
 
