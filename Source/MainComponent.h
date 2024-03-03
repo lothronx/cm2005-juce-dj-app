@@ -19,12 +19,14 @@ public:
 private:
     AudioFormatManager formatManager;
     AudioThumbnailCache thumbCache{100};
+    juce::Colour color1 = juce::Colours::skyblue;
+    juce::Colour color2 = juce::Colours::salmon;
 
     DJAudioPlayer player1{formatManager};
-    DeckGUI deckGUI1{&player1, formatManager, thumbCache};
+    DeckGUI deckGUI1{&player1, formatManager, thumbCache, color1};
 
     DJAudioPlayer player2{formatManager};
-    DeckGUI deckGUI2{&player2,formatManager, thumbCache};
+    DeckGUI deckGUI2{&player2,formatManager, thumbCache, color2};
 
     MixerAudioSource mixerSource;
 

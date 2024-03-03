@@ -1,13 +1,3 @@
-/*
-  ==============================================================================
-
-    SpinningDisc.h
-    Created: 3 Mar 2024 4:19:57pm
-    Author:  Yue Wu
-
-  ==============================================================================
-*/
-
 #pragma once
 
 #include <JuceHeader.h>
@@ -15,13 +5,14 @@
 //==============================================================================
 /*
 */
-class SpinningDisc  : public juce::Component
-{
+class SpinningDisc : public juce::Component {
 public:
     SpinningDisc();
+
     ~SpinningDisc() override;
 
-    void paint (juce::Graphics&) override;
+    void paint(juce::Graphics &) override;
+
     void resized() override;
 
 private:

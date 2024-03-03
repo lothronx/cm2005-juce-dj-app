@@ -2,8 +2,6 @@
 
 //==============================================================================
 MainComponent::MainComponent() {
-    // Make sure you set the size of the component after
-    // you add any child components.
     setSize(800, 600);
 
     // Some platforms require permissions to open input channels so request that here
@@ -39,16 +37,6 @@ void MainComponent::prepareToPlay(int samplesPerBlockExpected, double sampleRate
 
 void MainComponent::getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToFill) {
     mixerSource.getNextAudioBlock(bufferToFill);
-
-//    auto *leftChan = bufferToFill.buffer->getWritePointer(0, bufferToFill.startSample);
-//    auto *rightChan = bufferToFill.buffer->getWritePointer(1, bufferToFill.startSample);
-//
-//    for (auto i = 0; i < bufferToFill.numSamples; ++i) {
-//        double sample = sin(phase) * 0.125;
-//        leftChan[i] = sample;
-//        rightChan[i] = sample;
-//        phase += dPhase;
-//    }
 }
 
 void MainComponent::releaseResources() {

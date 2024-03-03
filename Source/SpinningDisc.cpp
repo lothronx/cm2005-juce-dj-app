@@ -1,22 +1,8 @@
-/*
-  ==============================================================================
-
-    SpinningDisc.cpp
-    Created: 3 Mar 2024 4:19:57pm
-    Author:  Yue Wu
-
-  ==============================================================================
-*/
-
-#include <JuceHeader.h>
 #include "SpinningDisc.h"
 
 //==============================================================================
 SpinningDisc::SpinningDisc()
 {
-    // In your constructor, you should add any child components, and
-    // initialise any special settings that your component needs.
-
 }
 
 SpinningDisc::~SpinningDisc()

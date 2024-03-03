@@ -13,7 +13,8 @@ class DeckGUI
 public:
     DeckGUI(DJAudioPlayer *player,
                      AudioFormatManager &formatManagerToUse,
-                     AudioThumbnailCache &cacheToUse);
+                     AudioThumbnailCache &cacheToUse,
+                     const Colour &_colour);
     ~DeckGUI() override;
 
     void paint(juce::Graphics &g) override;
@@ -29,19 +30,32 @@ public:
     void timerCallback() override;
 
 private:
+    DJAudioPlayer *player;
+
+    Colour colour;
+
+    juce::FileChooser fChooser{"Select a file..."};
+
+    WaveformDisplay waveformDisplay;
+    Slider positionSlider;
+
+    Slider speedSlider;
+    Label speedLabel;
+
+    Slider volSlider;
+
     TextButton loadButton{"Load"};
     TextButton playPauseButton{"Play"};
     TextButton loopButton{"Loop"};
 
-    Slider volSlider;
-    Slider speedSlider;
-    Slider positionSlider;
 
-    juce::FileChooser fChooser{"Select a file..."};
 
-    DJAudioPlayer *player;
 
-    WaveformDisplay waveformDisplay;
+
+
+
+
+
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(DeckGUI)
 };

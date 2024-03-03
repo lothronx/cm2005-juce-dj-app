@@ -1,17 +1,15 @@
 #include "WaveformDisplay.h"
 
 WaveformDisplay::WaveformDisplay(AudioFormatManager &formatManagerToUse,
-                                 AudioThumbnailCache &cacheToUse)
-        : audioThumb{1000,
-                     formatManagerToUse,
-                     cacheToUse}, fileLoaded{false}, position{0.0} {
+                                 AudioThumbnailCache &cacheToUse,
+                                 const juce::Colour &_colour)
+        : audioThumb{1000, formatManagerToUse, cacheToUse}, fileLoaded{false}, position{0.0}, colour{_colour} {
     audioThumb.addChangeListener(this);
 }
 
 void WaveformDisplay::paint(Graphics &g) {
-    g.setColour(Colours::orange);
-    g.setFont(15.0f);
-
+    g.setColour(colour);
+    g.setFont(20.0f);
     if (fileLoaded) {
         audioThumb.drawChannel(g,
                                getLocalBounds(),
@@ -19,13 +17,13 @@ void WaveformDisplay::paint(Graphics &g) {
                                audioThumb.getTotalLength(),
                                0,
                                1.0f);
-        g.setColour(Colours::lightgreen);
+        g.setColour(Colours::white);
         g.drawRect(static_cast<int>(position * getWidth()),
                    0,
-                   2,
+                   1,
                    getHeight());
     } else {
-        g.drawText("File not loaded...",
+        g.drawText("Drag a song on this deck to load it",
                    getLocalBounds(),
                    Justification::centred,
                    true);
