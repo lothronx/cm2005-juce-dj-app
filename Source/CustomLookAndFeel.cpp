@@ -2,7 +2,9 @@
 
 
 CustomLookAndFeel::CustomLookAndFeel(const Colour &_colour)
-        : colour{_colour} {}
+        : colour{_colour} {
+    setColour(TextButton::buttonColourId, juce::Colours::darkgrey);
+}
 
 
 void CustomLookAndFeel::drawLinearSlider(Graphics &g, int x, int y, int width, int height,
@@ -14,7 +16,7 @@ void CustomLookAndFeel::drawLinearSlider(Graphics &g, int x, int y, int width, i
     auto floatHeight = static_cast<float>(height);
 
     if (style == juce::Slider::LinearVertical) {
-        g.setColour(juce::Colours::grey);
+        g.setColour(juce::Colours::lightgrey);
         const int numTicks = 11;
         const float spacing = floatHeight / (numTicks - 1);
         for (int i = 0; i < numTicks; ++i) {
@@ -29,7 +31,7 @@ void CustomLookAndFeel::drawLinearSlider(Graphics &g, int x, int y, int width, i
                            0.5f);
         }
 
-        g.setColour(Colours::darkgrey);
+        g.setColour(juce::Colours::darkgrey);
         g.fillRect(floatX + (floatWidth / 2) - 5, floatY, 10.0f,
                    floatHeight);
 
@@ -49,4 +51,32 @@ void CustomLookAndFeel::drawLinearSlider(Graphics &g, int x, int y, int width, i
         g.setColour(Colours::white);
         g.drawLine(sliderPos, floatY,sliderPos, floatY + floatHeight,1.0f);
     }
+}
+
+void CustomLookAndFeel::drawRotarySlider(Graphics &g, int x, int y, int width, int height, float sliderPos,
+                                         const float rotaryStartAngle, const float rotaryEndAngle, Slider &) {
+
+    auto radius = (float) juce::jmin (width / 2, height / 2) - 10.0f;
+    auto centreX = (float) x + (float) width  * 0.5f;
+    auto centreY = (float) y + (float) height * 0.5f;
+    auto rx = centreX - radius;
+    auto ry = centreY - radius;
+    auto rw = radius * 2.0f;
+    auto angle = rotaryStartAngle + sliderPos * (rotaryEndAngle - rotaryStartAngle);
+
+    g.setColour (colour);
+    g.fillEllipse (rx, ry, rw, rw);
+    g.setColour (colour);
+    g.drawEllipse (rx - 4, ry - 4, rw + 8, rw + 8, 3.0f);
+
+    juce::Path p;
+    auto pointerLength = radius * 0.6f;
+    auto pointerThickness = 4.0f;
+    p.addRectangle (-pointerThickness * 0.5f, -radius, pointerThickness, pointerLength);
+    p.applyTransform (juce::AffineTransform::rotation (angle).translated (centreX, centreY));
+    g.setColour (juce::Colours::white.withAlpha(0.9f));
+    g.fillPath (p);
+
+
+
 }

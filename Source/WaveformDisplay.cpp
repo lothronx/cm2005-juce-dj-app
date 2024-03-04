@@ -8,9 +8,9 @@ WaveformDisplay::WaveformDisplay(AudioFormatManager &formatManagerToUse,
 }
 
 void WaveformDisplay::paint(Graphics &g) {
-    g.setColour(colour);
-    g.setFont(20.0f);
     if (fileLoaded) {
+        g.fillAll(Colours::darkgrey);
+        g.setColour(colour);
         audioThumb.drawChannel(g,
                                getLocalBounds(),
                                0.0,
@@ -18,6 +18,9 @@ void WaveformDisplay::paint(Graphics &g) {
                                0,
                                1.0f);
     } else {
+        g.fillAll(colour);
+        g.setColour(Colours::white);
+        g.setFont(20.0f);
         g.drawText("Drag a song on this deck to load it",
                    getLocalBounds(),
                    Justification::centred,

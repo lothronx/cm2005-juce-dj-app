@@ -7,6 +7,13 @@ DeckGUI::DeckGUI(DJAudioPlayer *_player,
         : player{_player}, colour{_colour}, customLookAndFeel{_colour},
           waveformDisplay{formatManagerToUse, cacheToUse, _colour} {
 
+    loadButton.setLookAndFeel(&customLookAndFeel);
+    loadButton.setColour(TextButton::buttonColourId, colour);
+
+    playPauseButton.setLookAndFeel(&customLookAndFeel);
+
+    loopButton.setLookAndFeel(&customLookAndFeel);
+
     positionSlider.setRange(0.0, 1.0);
     positionSlider.setValue(0.0);
     positionSlider.setSliderStyle(Slider::SliderStyle::LinearBar);
@@ -30,11 +37,13 @@ DeckGUI::DeckGUI(DJAudioPlayer *_player,
     volSlider.setValue(0.5);
     volSlider.setSliderStyle(Slider::SliderStyle::Rotary);
     volSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
+    volSlider.setLookAndFeel(&customLookAndFeel);
 
     addAndMakeVisible(waveformDisplay);
     addAndMakeVisible(positionSlider);
     addAndMakeVisible(speedLabel);
     addAndMakeVisible(speedSlider);
+    addAndMakeVisible(volLabel);
     addAndMakeVisible(volSlider);
     addAndMakeVisible(loadButton);
     addAndMakeVisible(playPauseButton);
@@ -125,6 +134,7 @@ bool DeckGUI::isInterestedInFileDrag(const StringArray &files) {
 
 void DeckGUI::filesDropped(const StringArray &files, int x, int y) {
     player->loadURL(URL{File{files[0]}});
+    waveformDisplay.loadURL(URL{File{files[0]}});
 }
 
 void DeckGUI::timerCallback() {
@@ -133,6 +143,10 @@ void DeckGUI::timerCallback() {
     if (!player->isPlaying()) {
         playPauseButton.removeColour(TextButton::buttonColourId);
         playPauseButton.setButtonText("Play");
+    }
+
+    if (player->isLoaded()) {
+        loadButton.removeColour(TextButton::buttonColourId);
     }
 }
 
