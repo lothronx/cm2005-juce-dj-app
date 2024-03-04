@@ -5,8 +5,12 @@ DeckGUI::DeckGUI(DJAudioPlayer *_player,
                  AudioThumbnailCache &cacheToUse,
                  const Colour &_colour,
                  const juce::String &deckName)
-        : player{_player}, colour{_colour}, customLookAndFeel{_colour}, deckNameLabel{deckName, deckName},
-          waveformDisplay{formatManagerToUse, cacheToUse, _colour} {
+        : player{_player}
+        , colour{_colour}
+        , customLookAndFeel{_colour}
+        , deckNameLabel{deckName, deckName}
+        , waveformDisplay{formatManagerToUse, cacheToUse, _colour}
+        , spinningDisc{_colour}{
 
     setLookAndFeel(&customLookAndFeel);
 
@@ -59,6 +63,7 @@ DeckGUI::DeckGUI(DJAudioPlayer *_player,
     addAndMakeVisible(fileNameLabel);
     addAndMakeVisible(elapsedTimeLabel);
     addAndMakeVisible(waveformDisplay);
+    addAndMakeVisible(spinningDisc);
     addAndMakeVisible(positionSlider);
     addAndMakeVisible(speedLabel);
     addAndMakeVisible(speedSlider);
@@ -70,6 +75,7 @@ DeckGUI::DeckGUI(DJAudioPlayer *_player,
 
     player->addChangeListener(this);
     positionSlider.addListener(this);
+
     speedSlider.addListener(this);
     volSlider.addListener(this);
     loadButton.addListener(this);
@@ -119,6 +125,8 @@ void DeckGUI::resized() {
 
     waveformDisplay.setBounds(isLeftDeck ? w * 3 : w * 10, h * 10, w * 37, h * 10);
     positionSlider.setBounds(waveformDisplay.getBounds());
+
+    spinningDisc.setBounds(isLeftDeck ? w * 0 : w * 17, h * 25, w * 33, h * 55);
 
     speedSlider.setBounds(isLeftDeck ? w * 33 : w * 13, h * 30, w * 4, h * 50);
 
@@ -179,6 +187,8 @@ void DeckGUI::timerCallback() {
 void DeckGUI::changeListenerCallback(juce::ChangeBroadcaster *source) {
     if (source == player) {
         fileNameLabel.setText(player->getFileName(), dontSendNotification);
+
+        spinningDisc.setPlaying(player->isPlaying());
 
         loadButton.setToggleState(!player->isLoaded(), dontSendNotification);
 

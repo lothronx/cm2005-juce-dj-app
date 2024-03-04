@@ -3,6 +3,7 @@
 #include <JuceHeader.h>
 #include "DJAudioPlayer.h"
 #include "WaveformDisplay.h"
+#include "SpinningDisc.h"
 #include "CustomLookAndFeel.h"
 
 class DeckGUI
@@ -52,6 +53,8 @@ private:
 
     WaveformDisplay waveformDisplay;
     Slider positionSlider;
+
+    SpinningDisc spinningDisc;
 
     Label speedLabel;
     Slider speedSlider;
