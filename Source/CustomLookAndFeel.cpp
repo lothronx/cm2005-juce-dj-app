@@ -2,10 +2,7 @@
 
 
 CustomLookAndFeel::CustomLookAndFeel(const Colour &_colour)
-        : colour{_colour} {
-    setColour(TextButton::buttonOnColourId, colour);
-    setColour(TextButton::buttonColourId, Colours::darkgrey);
-}
+        : colour{_colour} {}
 
 
 void CustomLookAndFeel::drawLinearSlider(Graphics &g, int x, int y, int width, int height,
@@ -47,33 +44,52 @@ void CustomLookAndFeel::drawLinearSlider(Graphics &g, int x, int y, int width, i
     }
 
     if (style == juce::Slider::LinearBar) {
-        g.setColour (Colours::black.withAlpha(0.3f));
-        g.fillRect (floatX, floatY, sliderPos -floatX, floatHeight);
+        g.setColour(Colours::black.withAlpha(0.3f));
+        g.fillRect(floatX, floatY, sliderPos - floatX, floatHeight);
         g.setColour(Colours::white);
-        g.drawLine(sliderPos, floatY,sliderPos, floatY + floatHeight,1.0f);
+        g.drawLine(sliderPos, floatY, sliderPos, floatY + floatHeight, 1.0f);
     }
 }
 
 void CustomLookAndFeel::drawRotarySlider(Graphics &g, int x, int y, int width, int height, float sliderPos,
                                          const float rotaryStartAngle, const float rotaryEndAngle, Slider &) {
-    auto radius = (float) juce::jmin (width / 2, height / 2) - 10.0f;
-    auto centreX = (float) x + (float) width  * 0.5f;
+    auto radius = (float) juce::jmin(width / 2, height / 2) - 10.0f;
+    auto centreX = (float) x + (float) width * 0.5f;
     auto centreY = (float) y + (float) height * 0.5f;
     auto rx = centreX - radius;
     auto ry = centreY - radius;
     auto rw = radius * 2.0f;
     auto angle = rotaryStartAngle + sliderPos * (rotaryEndAngle - rotaryStartAngle);
 
-    g.setColour (colour);
-    g.fillEllipse (rx, ry, rw, rw);
-    g.setColour (colour);
-    g.drawEllipse (rx - 4, ry - 4, rw + 8, rw + 8, 3.0f);
+    g.setColour(colour);
+    g.fillEllipse(rx, ry, rw, rw);
+    g.setColour(colour);
+    g.drawEllipse(rx - 4, ry - 4, rw + 8, rw + 8, 3.0f);
 
     juce::Path p;
     auto pointerLength = radius * 0.6f;
     auto pointerThickness = 4.0f;
-    p.addRectangle (-pointerThickness * 0.5f, -radius, pointerThickness, pointerLength);
-    p.applyTransform (juce::AffineTransform::rotation (angle).translated (centreX, centreY));
-    g.setColour (juce::Colours::white.withAlpha(0.9f));
-    g.fillPath (p);
+    p.addRectangle(-pointerThickness * 0.5f, -radius, pointerThickness, pointerLength);
+    p.applyTransform(juce::AffineTransform::rotation(angle).translated(centreX, centreY));
+    g.setColour(juce::Colours::white.withAlpha(0.9f));
+    g.fillPath(p);
+}
+
+void
+CustomLookAndFeel::drawButtonBackground(juce::Graphics &g, juce::Button &button, const juce::Colour &backgroundColour,
+                                        bool isMouseOverButton, bool isButtonDown) {
+
+    auto bounds = button.getLocalBounds().toFloat().reduced(1.0f);
+    auto colours = button.getToggleState() ? colour: Colours::darkgrey;
+
+    if (isButtonDown || isMouseOverButton)
+        colours = colours.brighter();
+
+    g.setColour(colours);
+    g.fillRoundedRectangle(bounds, 10.0f);
+}
+
+void CustomLookAndFeel::drawButtonText(juce::Graphics &g, juce::TextButton &button, bool isMouseOverButton,
+                                       bool isButtonDown) {
+LookAndFeel_V4::drawButtonText(g, button, isMouseOverButton, isButtonDown);
 }
