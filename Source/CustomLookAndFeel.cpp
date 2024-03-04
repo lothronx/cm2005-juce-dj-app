@@ -3,7 +3,8 @@
 
 CustomLookAndFeel::CustomLookAndFeel(const Colour &_colour)
         : colour{_colour} {
-    setColour(TextButton::buttonColourId, juce::Colours::darkgrey);
+    setColour(TextButton::buttonOnColourId, colour);
+    setColour(TextButton::buttonColourId, Colours::darkgrey);
 }
 
 
@@ -55,7 +56,6 @@ void CustomLookAndFeel::drawLinearSlider(Graphics &g, int x, int y, int width, i
 
 void CustomLookAndFeel::drawRotarySlider(Graphics &g, int x, int y, int width, int height, float sliderPos,
                                          const float rotaryStartAngle, const float rotaryEndAngle, Slider &) {
-
     auto radius = (float) juce::jmin (width / 2, height / 2) - 10.0f;
     auto centreX = (float) x + (float) width  * 0.5f;
     auto centreY = (float) y + (float) height * 0.5f;
@@ -76,7 +76,4 @@ void CustomLookAndFeel::drawRotarySlider(Graphics &g, int x, int y, int width, i
     p.applyTransform (juce::AffineTransform::rotation (angle).translated (centreX, centreY));
     g.setColour (juce::Colours::white.withAlpha(0.9f));
     g.fillPath (p);
-
-
-
 }

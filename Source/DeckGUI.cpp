@@ -6,19 +6,12 @@ DeckGUI::DeckGUI(DJAudioPlayer *_player,
                  const Colour &_colour)
         : player{_player}, colour{_colour}, customLookAndFeel{_colour},
           waveformDisplay{formatManagerToUse, cacheToUse, _colour} {
-
-    loadButton.setLookAndFeel(&customLookAndFeel);
-    loadButton.setColour(TextButton::buttonColourId, colour);
-
-    playPauseButton.setLookAndFeel(&customLookAndFeel);
-
-    loopButton.setLookAndFeel(&customLookAndFeel);
+    setLookAndFeel(&customLookAndFeel);
 
     positionSlider.setRange(0.0, 1.0);
     positionSlider.setValue(0.0);
     positionSlider.setSliderStyle(Slider::SliderStyle::LinearBar);
     positionSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
-    positionSlider.setLookAndFeel(&customLookAndFeel);
 
     speedLabel.setText("Tempo", dontSendNotification);
     speedLabel.attachToComponent(&speedSlider, false);
@@ -28,16 +21,25 @@ DeckGUI::DeckGUI(DJAudioPlayer *_player,
     speedSlider.setSliderStyle(Slider::SliderStyle::LinearVertical);
     speedSlider.setTextBoxStyle(Slider::TextBoxBelow, false, 100, 20);
     speedSlider.setTextValueSuffix(" %");
-    speedSlider.setLookAndFeel(&customLookAndFeel);
 
     volLabel.setText("Volume", dontSendNotification);
     volLabel.attachToComponent(&volSlider, false);
 
     volSlider.setRange(0.0, 1.0);
     volSlider.setValue(0.5);
+    volSlider.setDoubleClickReturnValue(true, 0.5);
     volSlider.setSliderStyle(Slider::SliderStyle::Rotary);
     volSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
-    volSlider.setLookAndFeel(&customLookAndFeel);
+
+    loadButton.setButtonText("Load");
+    loadButton.setToggleable(true);
+    loadButton.setToggleState(true, dontSendNotification);
+
+    playPauseButton.setButtonText("Play");
+    playPauseButton.setToggleable(true);
+
+    loopButton.setButtonText("Loop");
+    loopButton.setToggleable(true);
 
     addAndMakeVisible(waveformDisplay);
     addAndMakeVisible(positionSlider);
@@ -49,6 +51,7 @@ DeckGUI::DeckGUI(DJAudioPlayer *_player,
     addAndMakeVisible(playPauseButton);
     addAndMakeVisible(loopButton);
 
+    player->addChangeListener(this);
     positionSlider.addListener(this);
     speedSlider.addListener(this);
     volSlider.addListener(this);
@@ -62,7 +65,7 @@ DeckGUI::DeckGUI(DJAudioPlayer *_player,
 
 DeckGUI::~DeckGUI() {
     stopTimer();
-    speedSlider.setLookAndFeel(nullptr);
+    setLookAndFeel(nullptr);
 }
 
 void DeckGUI::paint(Graphics &g) {
@@ -86,33 +89,21 @@ void DeckGUI::resized() {
 }
 
 void DeckGUI::buttonClicked(juce::Button *button) {
-    if (button == &loopButton && player->isLoaded()) {
-        player->setLooping(!player->isLooping());
-        if (player->isLooping()) {
-            loopButton.setColour(TextButton::buttonColourId, colour);
-        } else {
-            loopButton.removeColour(TextButton::buttonColourId);
-        }
-    }
-
-    if (button == &playPauseButton && player->isLoaded()) {
-        if (player->isPlaying()) {
-            player->stop();
-            playPauseButton.setButtonText("Play");
-            playPauseButton.removeColour(TextButton::buttonColourId);
-        } else {
-            player->start();
-            playPauseButton.setButtonText("Pause");
-            playPauseButton.setColour(TextButton::buttonColourId, colour);
-        }
-    }
-
     if (button == &loadButton) {
         fChooser.launchAsync(FileBrowserComponent::canSelectFiles,
                              [this](const FileChooser &chooser) {
                                  player->loadURL(URL{chooser.getResult()});
                                  waveformDisplay.loadURL(URL{chooser.getResult()});
                              });
+    }
+
+    if (button == &playPauseButton && player->isLoaded()) {
+        player->isPlaying() ? player->stop()
+                            : player->start();
+    }
+
+    if (button == &loopButton && player->isLoaded()) {
+        player->setLooping(!player->isLooping());
     }
 }
 
@@ -139,14 +130,15 @@ void DeckGUI::filesDropped(const StringArray &files, int x, int y) {
 
 void DeckGUI::timerCallback() {
     positionSlider.setValue(player->getPositionRelative(), dontSendNotification);
-
-    if (!player->isPlaying()) {
-        playPauseButton.removeColour(TextButton::buttonColourId);
-        playPauseButton.setButtonText("Play");
-    }
-
-    if (player->isLoaded()) {
-        loadButton.removeColour(TextButton::buttonColourId);
-    }
 }
 
+void DeckGUI::changeListenerCallback(juce::ChangeBroadcaster *source) {
+    if (source == player) {
+        loadButton.setToggleState(!player->isLoaded(), dontSendNotification);
+
+        playPauseButton.setToggleState(player->isPlaying(), dontSendNotification);
+        playPauseButton.setButtonText(playPauseButton.getToggleState() ? "Pause" : "Play");
+
+        loopButton.setToggleState(player->isLooping(), dontSendNotification);
+    }
+}

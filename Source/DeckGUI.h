@@ -10,7 +10,8 @@ class DeckGUI
           public juce::Button::Listener,
           public juce::Slider::Listener,
           public juce::FileDragAndDropTarget,
-          public juce::Timer {
+          public juce::Timer,
+          public juce::ChangeListener{
 public:
     DeckGUI(DJAudioPlayer *player,
             AudioFormatManager &formatManagerToUse,
@@ -33,6 +34,8 @@ public:
 
     void timerCallback() override;
 
+    void changeListenerCallback(juce::ChangeBroadcaster *source) override;
+
 private:
     juce::FileChooser fChooser{"Select a file..."};
 
@@ -50,9 +53,9 @@ private:
     Label volLabel;
     Slider volSlider;
 
-    TextButton loadButton{"Load"};
-    TextButton playPauseButton{"Play"};
-    TextButton loopButton{"Loop"};
+    TextButton loadButton;
+    TextButton playPauseButton;
+    TextButton loopButton;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(DeckGUI)
 };
