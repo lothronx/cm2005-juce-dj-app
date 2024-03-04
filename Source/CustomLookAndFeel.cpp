@@ -39,7 +39,7 @@ void CustomLookAndFeel::drawLinearSlider(Graphics &g, int x, int y, int width, i
 
         g.setColour(colour);
         g.fillRoundedRectangle(floatX + 5, sliderPos - 10, floatWidth - 10, 20.0f,
-                               4.0f); // Rounded rectangle for a thumb
+                               4.0f);
 
     }
 
@@ -87,9 +87,4 @@ CustomLookAndFeel::drawButtonBackground(juce::Graphics &g, juce::Button &button,
 
     g.setColour(colours);
     g.fillRoundedRectangle(bounds, 10.0f);
-}
-
-void CustomLookAndFeel::drawButtonText(juce::Graphics &g, juce::TextButton &button, bool isMouseOverButton,
-                                       bool isButtonDown) {
-    LookAndFeel_V4::drawButtonText(g, button, isMouseOverButton, isButtonDown);
 }

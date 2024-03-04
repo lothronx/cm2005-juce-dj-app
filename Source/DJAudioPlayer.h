@@ -26,6 +26,10 @@ public:
 
     void setLooping(bool shouldLoop);
 
+    juce::String getFileName() const;
+
+    juce::String getElapsedTime() const;
+
     void start();
 
     void stop();
@@ -41,4 +45,5 @@ private:
     std::unique_ptr<AudioFormatReaderSource> readerSource;
     AudioTransportSource transportSource;
     ResamplingAudioSource resampleSource{&transportSource, false, 2};
+    String fileName;
 };

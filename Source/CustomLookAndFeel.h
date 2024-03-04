@@ -4,19 +4,17 @@
 
 class CustomLookAndFeel : public juce::LookAndFeel_V4 {
 public:
-    explicit CustomLookAndFeel(const Colour& _colour);
+    explicit CustomLookAndFeel(const Colour &_colour);
 
-    void drawLinearSlider(Graphics& g, int x, int y, int width, int height,
+    void drawLinearSlider(Graphics &g, int x, int y, int width, int height,
                           float sliderPos, float minSliderPos, float maxSliderPos,
-                          Slider::SliderStyle style, Slider& slider) override;
+                          Slider::SliderStyle style, Slider &slider) override;
 
-    void drawRotarySlider (juce::Graphics& g, int x, int y, int width, int height, float sliderPos,
-                           const float rotaryStartAngle, const float rotaryEndAngle, juce::Slider&) override;
+    void drawRotarySlider(juce::Graphics &g, int x, int y, int width, int height, float sliderPos,
+                          const float rotaryStartAngle, const float rotaryEndAngle, juce::Slider &) override;
 
-    void drawButtonBackground(juce::Graphics& g, juce::Button& button, const juce::Colour& backgroundColour,
-                             bool isMouseOverButton, bool isButtonDown) override;
-
-    void drawButtonText(juce::Graphics& g, juce::TextButton& button, bool isMouseOverButton, bool isButtonDown) override;
+    void drawButtonBackground(juce::Graphics &g, juce::Button &button, const juce::Colour &backgroundColour,
+                              bool isMouseOverButton, bool isButtonDown) override;
 
 private:
     Colour colour;

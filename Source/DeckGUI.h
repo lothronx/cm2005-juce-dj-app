@@ -47,18 +47,21 @@ private:
 
     Label deckNameLabel;
 
+    Label fileNameLabel;
+    Label elapsedTimeLabel;
+
     WaveformDisplay waveformDisplay;
     Slider positionSlider;
 
     Label speedLabel;
     Slider speedSlider;
 
-    Label volLabel;
-    Slider volSlider;
-
     TextButton loadButton;
     TextButton playPauseButton;
     TextButton loopButton;
+
+    Label volLabel;
+    Slider volSlider;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(DeckGUI)
 };

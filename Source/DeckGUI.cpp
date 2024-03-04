@@ -13,6 +13,15 @@ DeckGUI::DeckGUI(DJAudioPlayer *_player,
     deckNameLabel.setJustificationType(Justification::centred);
     deckNameLabel.setFont(Font(30.0f, Font::bold));
 
+    fileNameLabel.setFont(Font(20.0f, Font::bold));
+    fileNameLabel.setText("Drag a song on this deck to load it", juce::dontSendNotification);
+    fileNameLabel.setJustificationType(
+            deckNameLabel.getText() == "A" ? juce::Justification::centredLeft : juce::Justification::centredRight);
+
+    elapsedTimeLabel.setText("00:00", juce::dontSendNotification);
+    elapsedTimeLabel.setJustificationType(
+            deckNameLabel.getText() == "A" ? juce::Justification::centredRight : juce::Justification::centredLeft);
+
     positionSlider.setRange(0.0, 1.0);
     positionSlider.setValue(0.0);
     positionSlider.setSliderStyle(Slider::SliderStyle::LinearBar);
@@ -47,6 +56,8 @@ DeckGUI::DeckGUI(DJAudioPlayer *_player,
     loopButton.setToggleable(true);
 
     addAndMakeVisible(deckNameLabel);
+    addAndMakeVisible(fileNameLabel);
+    addAndMakeVisible(elapsedTimeLabel);
     addAndMakeVisible(waveformDisplay);
     addAndMakeVisible(positionSlider);
     addAndMakeVisible(speedLabel);
@@ -81,11 +92,19 @@ void DeckGUI::paint(Graphics &g) {
     auto h = getHeight() / 100;
     auto w = getWidth() / 50;
 
-    g.setColour(Colours::grey.withAlpha(0.5f));
-    g.drawRect(isLeftDeck ? 0 : getWidth() * 1 / 5, 0, w * 40, h * 100, 1);
-
     g.setColour(colour);
     g.fillRect(deckNameLabel.getBounds());
+
+    g.setColour(Colours::darkgrey);
+    g.fillRect(fileNameLabel.getBounds());
+
+    g.setColour(Colours::grey.withAlpha(0.5f));
+    g.drawRect(isLeftDeck ? 0 : getWidth() * 1 / 5, 0, w * 40, h * 100, 1);
+    g.drawLine(static_cast<float>(fileNameLabel.getX()), static_cast<float>(fileNameLabel.getBottom()),
+               static_cast<float>(fileNameLabel.getRight()), static_cast<float>(fileNameLabel.getBottom()), 1);
+    g.drawRoundedRectangle(static_cast<float>(speedSlider.getX() - 3), static_cast<float>(speedSlider.getY() - 30),
+                           static_cast<float>(speedSlider.getWidth() + 6),
+                           static_cast<float>(speedSlider.getHeight() + 40), 10, 1);
 }
 
 void DeckGUI::resized() {
@@ -95,16 +114,21 @@ void DeckGUI::resized() {
 
     deckNameLabel.setBounds(isLeftDeck ? 0 : w * 47, 0, w * 3, h * 20);
 
+    fileNameLabel.setBounds(isLeftDeck ? w * 3 : w * 10, 0, w * 37, h * 10);
+    elapsedTimeLabel.setBounds(fileNameLabel.getBounds());
+
     waveformDisplay.setBounds(isLeftDeck ? w * 3 : w * 10, h * 10, w * 37, h * 10);
-    positionSlider.setBounds(isLeftDeck ? w * 3 : w * 10, h * 10, w * 37, h * 10);
+    positionSlider.setBounds(waveformDisplay.getBounds());
 
     speedSlider.setBounds(isLeftDeck ? w * 33 : w * 13, h * 30, w * 4, h * 50);
 
-    volSlider.setBounds(isLeftDeck ? w * 40 : 0, h * 15, w * 10, h * 10);
-
     loadButton.setBounds(isLeftDeck ? w * 3 : w * 20, h * 85, w * 7, h * 10);
-    playPauseButton.setBounds(isLeftDeck ? w * 13 : w * 30, h * 85, w * 7, h * 10);
-    loopButton.setBounds(isLeftDeck ? w * 23 : w * 40, h * 85, w * 7, h * 10);
+    playPauseButton.setBounds(loadButton.getX() + w * 10, loadButton.getY(), loadButton.getWidth(),
+                              loadButton.getHeight());
+    loopButton.setBounds(playPauseButton.getX() + w * 10, playPauseButton.getY(), playPauseButton.getWidth(),
+                         playPauseButton.getHeight());
+
+    volSlider.setBounds(isLeftDeck ? w * 40 : 0, h * 15, w * 10, h * 10);
 }
 
 void DeckGUI::buttonClicked(juce::Button *button) {
@@ -149,10 +173,13 @@ void DeckGUI::filesDropped(const StringArray &files, int x, int y) {
 
 void DeckGUI::timerCallback() {
     positionSlider.setValue(player->getPositionRelative(), dontSendNotification);
+    elapsedTimeLabel.setText(player->getElapsedTime(), dontSendNotification);
 }
 
 void DeckGUI::changeListenerCallback(juce::ChangeBroadcaster *source) {
     if (source == player) {
+        fileNameLabel.setText(player->getFileName(), dontSendNotification);
+
         loadButton.setToggleState(!player->isLoaded(), dontSendNotification);
 
         playPauseButton.setToggleState(player->isPlaying(), dontSendNotification);

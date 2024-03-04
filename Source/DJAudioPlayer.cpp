@@ -35,6 +35,7 @@ void DJAudioPlayer::loadURL(const juce::URL &audioURL) {
         std::unique_ptr<AudioFormatReaderSource> newSource(new AudioFormatReaderSource(reader, true));
         transportSource.setSource(newSource.get(), 0, nullptr, reader->sampleRate);
         readerSource = std::move(newSource);
+        fileName = audioURL.getLocalFile().getFileName();
         sendChangeMessage();
     }
 }
@@ -68,6 +69,21 @@ double DJAudioPlayer::getPositionRelative() const {
 void DJAudioPlayer::setLooping(bool shouldLoop) {
     readerSource->setLooping(shouldLoop);
     sendChangeMessage();
+}
+
+juce::String DJAudioPlayer::getFileName() const {
+    return fileName;
+}
+
+juce::String DJAudioPlayer::getElapsedTime() const {
+    auto posInSecs = transportSource.getCurrentPosition();
+
+    int minutes = static_cast<int>(posInSecs) / 60;
+    int wholeSeconds = static_cast<int>(posInSecs) % 60;
+    double fractionalSeconds = posInSecs - static_cast<double>(static_cast<int>(posInSecs));
+    int tenthsOfSecond = static_cast<int>(fractionalSeconds * 10.0);
+
+    return juce::String::formatted("%02d:%02d.%1d", minutes, wholeSeconds, tenthsOfSecond);
 }
 
 void DJAudioPlayer::start() {
