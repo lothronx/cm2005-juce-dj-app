@@ -23,10 +23,10 @@ private:
     juce::Colour color2 = juce::Colours::salmon;
 
     DJAudioPlayer player1{formatManager};
-    DeckGUI deckGUI1{&player1, formatManager, thumbCache, color1};
+    DeckGUI deckGUI1{&player1, formatManager, thumbCache, color1, "A"};
 
     DJAudioPlayer player2{formatManager};
-    DeckGUI deckGUI2{&player2,formatManager, thumbCache, color2};
+    DeckGUI deckGUI2{&player2,formatManager, thumbCache, color2, "B"};
 
     MixerAudioSource mixerSource;
 

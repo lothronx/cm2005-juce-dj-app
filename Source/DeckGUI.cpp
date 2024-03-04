@@ -3,10 +3,15 @@
 DeckGUI::DeckGUI(DJAudioPlayer *_player,
                  AudioFormatManager &formatManagerToUse,
                  AudioThumbnailCache &cacheToUse,
-                 const Colour &_colour)
-        : player{_player}, colour{_colour}, customLookAndFeel{_colour},
+                 const Colour &_colour,
+                 const juce::String &deckName)
+        : player{_player}, colour{_colour}, customLookAndFeel{_colour}, deckNameLabel{deckName, deckName},
           waveformDisplay{formatManagerToUse, cacheToUse, _colour} {
+
     setLookAndFeel(&customLookAndFeel);
+
+    deckNameLabel.setJustificationType(Justification::centred);
+    deckNameLabel.setFont(Font(30.0f, Font::bold));
 
     positionSlider.setRange(0.0, 1.0);
     positionSlider.setValue(0.0);
@@ -41,6 +46,7 @@ DeckGUI::DeckGUI(DJAudioPlayer *_player,
     loopButton.setButtonText("Loop");
     loopButton.setToggleable(true);
 
+    addAndMakeVisible(deckNameLabel);
     addAndMakeVisible(waveformDisplay);
     addAndMakeVisible(positionSlider);
     addAndMakeVisible(speedLabel);
@@ -70,22 +76,35 @@ DeckGUI::~DeckGUI() {
 
 void DeckGUI::paint(Graphics &g) {
     Component::paint(g);
+
+    bool isLeftDeck = deckNameLabel.getText() == "A";
+    auto h = getHeight() / 100;
+    auto w = getWidth() / 50;
+
+    g.setColour(Colours::grey.withAlpha(0.5f));
+    g.drawRect(isLeftDeck ? 0 : getWidth() * 1 / 5, 0, w * 40, h * 100, 1);
+
+    g.setColour(colour);
+    g.fillRect(deckNameLabel.getBounds());
 }
 
 void DeckGUI::resized() {
-    auto h = getHeight() / 10;
-    auto w = getWidth() / 10;
+    bool isLeftDeck = deckNameLabel.getText() == "A";
+    auto h = getHeight() / 100;
+    auto w = getWidth() / 50;
 
-    waveformDisplay.setBounds(0, 0, getWidth(), h * 2);
-    positionSlider.setBounds(0, 0, getWidth(), h * 2);
+    deckNameLabel.setBounds(isLeftDeck ? 0 : w * 47, 0, w * 3, h * 20);
 
-    speedSlider.setBounds(w * 9, h * 3, w, h * 4);
+    waveformDisplay.setBounds(isLeftDeck ? w * 3 : w * 10, h * 10, w * 37, h * 10);
+    positionSlider.setBounds(isLeftDeck ? w * 3 : w * 10, h * 10, w * 37, h * 10);
 
-    volSlider.setBounds(w * 7, h * 3, w * 2, h * 4);
+    speedSlider.setBounds(isLeftDeck ? w * 33 : w * 13, h * 30, w * 4, h * 50);
 
-    loadButton.setBounds(w, h * 8, w * 2, h);
-    playPauseButton.setBounds(w * 4, h * 8, w * 2, h);
-    loopButton.setBounds(w * 7, h * 8, w * 2, h);
+    volSlider.setBounds(isLeftDeck ? w * 40 : 0, h * 15, w * 10, h * 10);
+
+    loadButton.setBounds(isLeftDeck ? w * 3 : w * 20, h * 85, w * 7, h * 10);
+    playPauseButton.setBounds(isLeftDeck ? w * 13 : w * 30, h * 85, w * 7, h * 10);
+    loopButton.setBounds(isLeftDeck ? w * 23 : w * 40, h * 85, w * 7, h * 10);
 }
 
 void DeckGUI::buttonClicked(juce::Button *button) {

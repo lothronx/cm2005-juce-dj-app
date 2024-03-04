@@ -24,8 +24,8 @@ void CustomLookAndFeel::drawLinearSlider(Graphics &g, int x, int y, int width, i
                            floatX + floatWidth - 5, tickPosition,
                            1.0f);
             else
-                g.drawLine(floatX + 8, tickPosition,
-                           floatX + floatWidth - 8, tickPosition,
+                g.drawLine(floatX + 10, tickPosition,
+                           floatX + floatWidth - 10, tickPosition,
                            0.5f);
         }
 
@@ -38,8 +38,8 @@ void CustomLookAndFeel::drawLinearSlider(Graphics &g, int x, int y, int width, i
         g.fillRect(floatX + (floatWidth / 2) - 5, sliderPos, 10.0f, midPos - sliderPos);
 
         g.setColour(colour);
-        g.fillRoundedRectangle(floatX + 5, sliderPos - 5, floatWidth - 10, 10.0f,
-                               2.0f); // Rounded rectangle for a thumb
+        g.fillRoundedRectangle(floatX + 5, sliderPos - 10, floatWidth - 10, 20.0f,
+                               4.0f); // Rounded rectangle for a thumb
 
     }
 
@@ -80,7 +80,7 @@ CustomLookAndFeel::drawButtonBackground(juce::Graphics &g, juce::Button &button,
                                         bool isMouseOverButton, bool isButtonDown) {
 
     auto bounds = button.getLocalBounds().toFloat().reduced(1.0f);
-    auto colours = button.getToggleState() ? colour: Colours::darkgrey;
+    auto colours = button.getToggleState() ? colour : Colours::darkgrey;
 
     if (isButtonDown || isMouseOverButton)
         colours = colours.brighter();
@@ -91,5 +91,5 @@ CustomLookAndFeel::drawButtonBackground(juce::Graphics &g, juce::Button &button,
 
 void CustomLookAndFeel::drawButtonText(juce::Graphics &g, juce::TextButton &button, bool isMouseOverButton,
                                        bool isButtonDown) {
-LookAndFeel_V4::drawButtonText(g, button, isMouseOverButton, isButtonDown);
+    LookAndFeel_V4::drawButtonText(g, button, isMouseOverButton, isButtonDown);
 }

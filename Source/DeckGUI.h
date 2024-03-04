@@ -16,7 +16,8 @@ public:
     DeckGUI(DJAudioPlayer *player,
             AudioFormatManager &formatManagerToUse,
             AudioThumbnailCache &cacheToUse,
-            const Colour &_colour);
+            const Colour &_colour,
+            const juce::String &deckName);
 
     ~DeckGUI() override;
 
@@ -43,6 +44,8 @@ private:
 
     Colour colour;
     CustomLookAndFeel customLookAndFeel;
+
+    Label deckNameLabel;
 
     WaveformDisplay waveformDisplay;
     Slider positionSlider;
