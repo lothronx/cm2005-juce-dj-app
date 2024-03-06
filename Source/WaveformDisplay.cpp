@@ -76,6 +76,7 @@ void WaveformDisplay::resized() {
 }
 
 void WaveformDisplay::sliderValueChanged(juce::Slider *slider) {
+
     player->setPositionRelative(slider->getValue());
 }
 
