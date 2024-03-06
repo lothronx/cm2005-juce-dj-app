@@ -54,8 +54,8 @@ void CustomLookAndFeel::drawLinearSlider(Graphics &g, int x, int y, int width, i
 void CustomLookAndFeel::drawRotarySlider(Graphics &g, int x, int y, int width, int height, float sliderPos,
                                          const float rotaryStartAngle, const float rotaryEndAngle, Slider &) {
     auto radius = (float) juce::jmin(width / 2, height / 2) - 10.0f;
-    auto centreX = (float) x + (float) width * 0.5f;
-    auto centreY = (float) y + (float) height * 0.5f;
+    auto centreX = (float) x + (float) width / 2;
+    auto centreY = (float) y + (float) height / 2;
     auto rx = centreX - radius;
     auto ry = centreY - radius;
     auto rw = radius * 2.0f;
@@ -63,28 +63,48 @@ void CustomLookAndFeel::drawRotarySlider(Graphics &g, int x, int y, int width, i
 
     g.setColour(colour);
     g.fillEllipse(rx, ry, rw, rw);
-    g.setColour(colour);
-    g.drawEllipse(rx - 4, ry - 4, rw + 8, rw + 8, 3.0f);
 
-    juce::Path p;
-    auto pointerLength = radius * 0.6f;
-    auto pointerThickness = 4.0f;
-    p.addRectangle(-pointerThickness * 0.5f, -radius, pointerThickness, pointerLength);
-    p.applyTransform(juce::AffineTransform::rotation(angle).translated(centreX, centreY));
     g.setColour(juce::Colours::white.withAlpha(0.9f));
-    g.fillPath(p);
+    juce::Path pointer;
+    pointer.addRectangle(-2.0f, -radius, 4.0f, radius * 0.6f);
+    pointer.applyTransform(juce::AffineTransform::rotation(angle).translated(centreX, centreY));
+    g.fillPath(pointer);
+
+    g.setColour(Colours::darkgrey.withAlpha(0.5f));
+    juce::PathStrokeType strokeType(3.0f);
+    juce::Path track;
+    track.addArc(rx - 4,
+                 ry - 4,
+                 rw + 8,
+                 rw + 8,
+                 rotaryStartAngle,
+                 rotaryEndAngle,
+                 true);
+    g.strokePath(track, strokeType);
+
+    g.setColour(colour);
+    juce::Path trackColored;
+    trackColored.addArc(rx - 4,
+                        ry - 4,
+                        rw + 8,
+                        rw + 8,
+                        (rotaryStartAngle + rotaryEndAngle) / 2,
+                        rotaryStartAngle + sliderPos * (rotaryEndAngle - rotaryStartAngle),
+                        true);
+    g.strokePath(trackColored, strokeType);
 }
 
 void
 CustomLookAndFeel::drawButtonBackground(juce::Graphics &g, juce::Button &button, const juce::Colour &backgroundColour,
                                         bool isMouseOverButton, bool isButtonDown) {
 
-    auto bounds = button.getLocalBounds().toFloat().reduced(1.0f);
     auto colours = button.getToggleState() ? colour : Colours::darkgrey;
 
     if (isButtonDown || isMouseOverButton)
         colours = colours.brighter();
 
     g.setColour(colours);
+
+    auto bounds = button.getLocalBounds().toFloat().reduced(1.0f);
     g.fillRoundedRectangle(bounds, 10.0f);
 }
