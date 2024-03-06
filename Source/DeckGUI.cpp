@@ -7,7 +7,7 @@ DeckGUI::DeckGUI(DJAudioPlayer *_player,
                  const String &_deckName)
         : player{_player}, deckName{_deckName}, colour{_colour}, customLookAndFeel{_colour},
           waveformDisplay{formatManagerToUse, cacheToUse, _player, _deckName, _colour}, jogWheel{_colour},
-          transportControls{_player} {
+          transportControls{_player, &waveformDisplay} {
 
     setLookAndFeel(&customLookAndFeel);
 

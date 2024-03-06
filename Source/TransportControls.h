@@ -3,12 +3,13 @@
 
 #include <JuceHeader.h>
 #include "DJAudioPlayer.h"
+#include "WaveformDisplay.h"
 
 class TransportControls : public juce::Component,
                           public juce::Button::Listener,
                           public juce::ChangeListener {
 public:
-    TransportControls(DJAudioPlayer *player);
+    TransportControls(DJAudioPlayer *player, WaveformDisplay *waveformDisplay);
 
     void paint(juce::Graphics &) override;
 
@@ -20,6 +21,7 @@ public:
 
 private:
     DJAudioPlayer *player;
+    WaveformDisplay *waveformDisplay;
 
     TextButton loadButton{"load"};
     TextButton playPauseButton{"play"};
