@@ -71,18 +71,13 @@ void WaveformDisplay::resized() {
     auto w = getWidth() / 40;
 
     deckNameLabel.setBounds(isLeftDeck ? 0 : w * 37, 0, w * 3, h * 2);
-
     fileNameLabel.setBounds(isLeftDeck ? w * 3 : 0, 0, w * 37, h);
-
     elapsedTimeLabel.setBounds(fileNameLabel.getBounds());
-
     positionSlider.setBounds(isLeftDeck ? w * 3 : 0, h, w * 37, h);
 }
 
 void WaveformDisplay::sliderValueChanged(juce::Slider *slider) {
-    if (slider == &positionSlider) {
         player->setPositionRelative(slider->getValue());
-    }
 }
 
 void WaveformDisplay::timerCallback() {
@@ -91,13 +86,11 @@ void WaveformDisplay::timerCallback() {
 }
 
 void WaveformDisplay::changeListenerCallback(juce::ChangeBroadcaster *source) {
-
-        fileNameLabel.setText(player->getFileName(), dontSendNotification);
-        repaint();
-
+    repaint();
 }
 
 void WaveformDisplay::loadURL(const URL &audioURL) {
     audioThumb.clear();
     fileLoaded = audioThumb.setSource(new URLInputSource(audioURL));
+    if (fileLoaded) fileNameLabel.setText(player->getFileName(), dontSendNotification);
 }

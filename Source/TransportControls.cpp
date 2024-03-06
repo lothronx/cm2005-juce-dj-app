@@ -1,7 +1,9 @@
 #include "TransportControls.h"
 
 
-TransportControls::TransportControls(DJAudioPlayer *_player) : player{_player} {
+TransportControls::TransportControls(DJAudioPlayer *_player, WaveformDisplay *_waveformDisplay) : player{_player},
+                                                                                                  waveformDisplay{
+                                                                                                          _waveformDisplay} {
 
     loadButton.setToggleable(true);
     loadButton.setToggleState(true, dontSendNotification);
@@ -40,7 +42,7 @@ void TransportControls::buttonClicked(juce::Button *button) {
         fChooser.launchAsync(FileBrowserComponent::canSelectFiles,
                              [this](const FileChooser &chooser) {
                                  player->loadURL(URL{chooser.getResult()});
-                                 //waveformDisplay.loadURL(URL{chooser.getResult()});
+                                 waveformDisplay->loadURL(URL{chooser.getResult()});
                              });
     }
 
