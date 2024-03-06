@@ -19,6 +19,7 @@ public:
 private:
     AudioFormatManager formatManager;
     AudioThumbnailCache thumbCache{100};
+
     juce::Colour color1 = juce::Colours::skyblue;
     juce::Colour color2 = juce::Colours::salmon;
 

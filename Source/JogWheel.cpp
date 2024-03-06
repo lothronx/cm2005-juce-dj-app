@@ -1,28 +1,28 @@
-#include "SpinningDisc.h"
+#include "JogWheel.h"
 
-SpinningDisc::SpinningDisc(const Colour &_colour)
+JogWheel::JogWheel(const Colour &_colour)
         : colour{_colour} {
     startTimer(1000 / 60);
 }
 
-SpinningDisc::~SpinningDisc() {
+JogWheel::~JogWheel() {
     stopTimer();
 }
 
-void SpinningDisc::paint(juce::Graphics &g) {
+void JogWheel::paint(juce::Graphics &g) {
     auto centreX = static_cast<float>(getWidth()) / 2;
     auto centreY = static_cast<float>(getHeight()) / 2;
 
     g.addTransform(juce::AffineTransform::rotation(rotationAngle, centreX, centreY));
 
-    drawDisc(g, centreX, centreY);
+    drawWheel(g, centreX, centreY);
 
 }
 
-void SpinningDisc::resized() {
+void JogWheel::resized() {
 }
 
-void SpinningDisc::timerCallback() {
+void JogWheel::timerCallback() {
     if (isPlaying) {
         rotationAngle += rotationSpeed;
         rotationAngle = fmod(rotationAngle, juce::MathConstants<float>::twoPi);
@@ -30,12 +30,12 @@ void SpinningDisc::timerCallback() {
     }
 }
 
-void SpinningDisc::setPlaying(bool shouldBePlaying) {
+void JogWheel::setPlaying(bool shouldBePlaying) {
     isPlaying = shouldBePlaying;
 }
 
 
-void SpinningDisc::drawDisc(juce::Graphics &g, const float centreX, const float centreY) {
+void JogWheel::drawWheel(juce::Graphics &g, const float centreX, const float centreY) {
     auto radius = static_cast<float>(jmin(getWidth(), getHeight())) / 2 - 5;
 
     g.setColour(Colours::darkgrey);

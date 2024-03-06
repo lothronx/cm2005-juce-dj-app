@@ -5,11 +5,11 @@
 //==============================================================================
 /*
 */
-class SpinningDisc : public juce::Component, public juce::Timer {
+class JogWheel : public juce::Component, public juce::Timer {
 public:
-    explicit SpinningDisc(const Colour &colour);
+    explicit JogWheel(const Colour &colour);
 
-    ~SpinningDisc() override;
+    ~JogWheel() override;
 
     void paint(juce::Graphics &) override;
 
@@ -30,7 +30,7 @@ private:
     const float fastForwardSpeed{0.1f};
     const float fastRewindSpeed{-0.1f};
 
-    void drawDisc(juce::Graphics &g, const float centreX, const float centreY);
+    void drawWheel(juce::Graphics &g, const float centreX, const float centreY);
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SpinningDisc)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (JogWheel)
 };

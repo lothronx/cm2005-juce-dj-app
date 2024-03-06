@@ -2,23 +2,23 @@
 
 #include <JuceHeader.h>
 #include "DJAudioPlayer.h"
-#include "WaveformDisplay.h"
-#include "SpinningDisc.h"
 #include "CustomLookAndFeel.h"
+#include "WaveformDisplay.h"
+#include "JogWheel.h"
+#include "TransportControls.h"
 
 class DeckGUI
         : public juce::Component,
-          public juce::Button::Listener,
           public juce::Slider::Listener,
           public juce::FileDragAndDropTarget,
-          public juce::Timer,
           public juce::ChangeListener{
+
 public:
     DeckGUI(DJAudioPlayer *player,
             AudioFormatManager &formatManagerToUse,
             AudioThumbnailCache &cacheToUse,
             const Colour &_colour,
-            const juce::String &deckName);
+            const String &deckName);
 
     ~DeckGUI() override;
 
@@ -26,42 +26,29 @@ public:
 
     void resized() override;
 
-    void buttonClicked(juce::Button *button) override;
-
     void sliderValueChanged(juce::Slider *slider) override;
 
     bool isInterestedInFileDrag(const juce::StringArray &files) override;
 
     void filesDropped(const juce::StringArray &files, int x, int y) override;
 
-    void timerCallback() override;
-
     void changeListenerCallback(juce::ChangeBroadcaster *source) override;
 
 private:
-    juce::FileChooser fChooser{"Select a file..."};
-
     DJAudioPlayer *player;
 
-    Colour colour;
+    const String deckName;
+    const Colour colour;
     CustomLookAndFeel customLookAndFeel;
 
-    Label deckNameLabel;
-
-    Label fileNameLabel;
-    Label elapsedTimeLabel;
-
     WaveformDisplay waveformDisplay;
-    Slider positionSlider;
 
-    SpinningDisc spinningDisc;
+    JogWheel jogWheel;
+
+    TransportControls transportControls;
 
     Label speedLabel;
     Slider speedSlider;
-
-    TextButton loadButton;
-    TextButton playPauseButton;
-    TextButton loopButton;
 
     Label volLabel;
     Slider volSlider;

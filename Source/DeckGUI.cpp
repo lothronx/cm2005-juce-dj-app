@@ -4,36 +4,15 @@ DeckGUI::DeckGUI(DJAudioPlayer *_player,
                  AudioFormatManager &formatManagerToUse,
                  AudioThumbnailCache &cacheToUse,
                  const Colour &_colour,
-                 const juce::String &deckName)
-        : player{_player}
-        , colour{_colour}
-        , customLookAndFeel{_colour}
-        , deckNameLabel{deckName, deckName}
-        , waveformDisplay{formatManagerToUse, cacheToUse, _colour}
-        , spinningDisc{_colour}{
+                 const String &_deckName)
+        : player{_player}, deckName{_deckName}, colour{_colour}, customLookAndFeel{_colour},
+          waveformDisplay{formatManagerToUse, cacheToUse, _player, _deckName, _colour}, jogWheel{_colour},
+          transportControls{_player} {
 
     setLookAndFeel(&customLookAndFeel);
 
-    deckNameLabel.setJustificationType(Justification::centred);
-    deckNameLabel.setFont(Font(30.0f, Font::bold));
-
-    fileNameLabel.setFont(Font(20.0f, Font::bold));
-    fileNameLabel.setText("Drag a song on this deck to load it", juce::dontSendNotification);
-    fileNameLabel.setJustificationType(
-            deckNameLabel.getText() == "A" ? juce::Justification::centredLeft : juce::Justification::centredRight);
-
-    elapsedTimeLabel.setText("00:00", juce::dontSendNotification);
-    elapsedTimeLabel.setJustificationType(
-            deckNameLabel.getText() == "A" ? juce::Justification::centredRight : juce::Justification::centredLeft);
-
-    positionSlider.setRange(0.0, 1.0);
-    positionSlider.setValue(0.0);
-    positionSlider.setSliderStyle(Slider::SliderStyle::LinearBar);
-    positionSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
-
     speedLabel.setText("Tempo", dontSendNotification);
     speedLabel.attachToComponent(&speedSlider, false);
-
     speedSlider.setNormalisableRange(NormalisableRange<double>(-50, 50, 1));
     speedSlider.setValue(0.0);
     speedSlider.setSliderStyle(Slider::SliderStyle::LinearVertical);
@@ -42,120 +21,63 @@ DeckGUI::DeckGUI(DJAudioPlayer *_player,
 
     volLabel.setText("Volume", dontSendNotification);
     volLabel.attachToComponent(&volSlider, false);
-
     volSlider.setRange(0.0, 1.0);
     volSlider.setValue(0.5);
     volSlider.setDoubleClickReturnValue(true, 0.5);
     volSlider.setSliderStyle(Slider::SliderStyle::Rotary);
     volSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
 
-    loadButton.setButtonText("Load");
-    loadButton.setToggleable(true);
-    loadButton.setToggleState(true, dontSendNotification);
 
-    playPauseButton.setButtonText("Play");
-    playPauseButton.setToggleable(true);
-
-    loopButton.setButtonText("Loop");
-    loopButton.setToggleable(true);
-
-    addAndMakeVisible(deckNameLabel);
-    addAndMakeVisible(fileNameLabel);
-    addAndMakeVisible(elapsedTimeLabel);
     addAndMakeVisible(waveformDisplay);
-    addAndMakeVisible(spinningDisc);
-    addAndMakeVisible(positionSlider);
+    addAndMakeVisible(jogWheel);
+    addAndMakeVisible(transportControls);
     addAndMakeVisible(speedLabel);
     addAndMakeVisible(speedSlider);
     addAndMakeVisible(volLabel);
     addAndMakeVisible(volSlider);
-    addAndMakeVisible(loadButton);
-    addAndMakeVisible(playPauseButton);
-    addAndMakeVisible(loopButton);
+
 
     player->addChangeListener(this);
-    positionSlider.addListener(this);
 
     speedSlider.addListener(this);
     volSlider.addListener(this);
-    loadButton.addListener(this);
-    playPauseButton.addListener(this);
-    loopButton.addListener(this);
-
-    startTimer(100);
 }
 
 
 DeckGUI::~DeckGUI() {
-    stopTimer();
     setLookAndFeel(nullptr);
 }
 
 void DeckGUI::paint(Graphics &g) {
     Component::paint(g);
 
-    bool isLeftDeck = deckNameLabel.getText() == "A";
-    auto h = getHeight() / 100;
-    auto w = getWidth() / 50;
-
-    g.setColour(colour);
-    g.fillRect(deckNameLabel.getBounds());
-
-    g.setColour(Colours::darkgrey);
-    g.fillRect(fileNameLabel.getBounds());
+    bool isLeftDeck = deckName == "A";
 
     g.setColour(Colours::grey.withAlpha(0.5f));
-    g.drawRect(isLeftDeck ? 0 : getWidth() * 1 / 5, 0, w * 40, h * 100, 1);
-    g.drawLine(static_cast<float>(fileNameLabel.getX()), static_cast<float>(fileNameLabel.getBottom()),
-               static_cast<float>(fileNameLabel.getRight()), static_cast<float>(fileNameLabel.getBottom()), 1);
-    g.drawRoundedRectangle(static_cast<float>(speedSlider.getX() - 3), static_cast<float>(speedSlider.getY() - 30),
+    g.drawRect(isLeftDeck ? 0 : getWidth() * 1 / 5, 0, getWidth() * 4 / 5, getHeight(), 1);
+
+    g.drawRoundedRectangle(static_cast<float>(speedSlider.getX() - 3),
+                           static_cast<float>(speedSlider.getY() - 30),
                            static_cast<float>(speedSlider.getWidth() + 6),
-                           static_cast<float>(speedSlider.getHeight() + 40), 10, 1);
+                           static_cast<float>(speedSlider.getHeight() + 40),
+                           10,
+                           1);
 }
 
 void DeckGUI::resized() {
-    bool isLeftDeck = deckNameLabel.getText() == "A";
+    bool isLeftDeck = deckName == "A";
     auto h = getHeight() / 100;
     auto w = getWidth() / 50;
 
-    deckNameLabel.setBounds(isLeftDeck ? 0 : w * 47, 0, w * 3, h * 20);
+    waveformDisplay.setBounds(isLeftDeck ? 0 : w * 10, 0, w * 40, h * 20);
 
-    fileNameLabel.setBounds(isLeftDeck ? w * 3 : w * 10, 0, w * 37, h * 10);
-    elapsedTimeLabel.setBounds(fileNameLabel.getBounds());
+    jogWheel.setBounds(isLeftDeck ? w * 0 : w * 17, h * 25, w * 33, h * 55);
 
-    waveformDisplay.setBounds(isLeftDeck ? w * 3 : w * 10, h * 10, w * 37, h * 10);
-    positionSlider.setBounds(waveformDisplay.getBounds());
-
-    spinningDisc.setBounds(isLeftDeck ? w * 0 : w * 17, h * 25, w * 33, h * 55);
+    transportControls.setBounds(isLeftDeck ? 0 : w * 17, h * 80, w * 33, h * 20);
 
     speedSlider.setBounds(isLeftDeck ? w * 33 : w * 13, h * 30, w * 4, h * 50);
 
-    loadButton.setBounds(isLeftDeck ? w * 3 : w * 20, h * 85, w * 7, h * 10);
-    playPauseButton.setBounds(loadButton.getX() + w * 10, loadButton.getY(), loadButton.getWidth(),
-                              loadButton.getHeight());
-    loopButton.setBounds(playPauseButton.getX() + w * 10, playPauseButton.getY(), playPauseButton.getWidth(),
-                         playPauseButton.getHeight());
-
     volSlider.setBounds(isLeftDeck ? w * 40 : 0, h * 15, w * 10, h * 10);
-}
-
-void DeckGUI::buttonClicked(juce::Button *button) {
-    if (button == &loadButton) {
-        fChooser.launchAsync(FileBrowserComponent::canSelectFiles,
-                             [this](const FileChooser &chooser) {
-                                 player->loadURL(URL{chooser.getResult()});
-                                 waveformDisplay.loadURL(URL{chooser.getResult()});
-                             });
-    }
-
-    if (button == &playPauseButton && player->isLoaded()) {
-        player->isPlaying() ? player->stop()
-                            : player->start();
-    }
-
-    if (button == &loopButton && player->isLoaded()) {
-        player->setLooping(!player->isLooping());
-    }
 }
 
 void DeckGUI::sliderValueChanged(juce::Slider *slider) {
@@ -164,9 +86,6 @@ void DeckGUI::sliderValueChanged(juce::Slider *slider) {
     }
     if (slider == &speedSlider) {
         player->setTempo(slider->getValue());
-    }
-    if (slider == &positionSlider) {
-        player->setPositionRelative(slider->getValue());
     }
 }
 
@@ -179,22 +98,8 @@ void DeckGUI::filesDropped(const StringArray &files, int x, int y) {
     waveformDisplay.loadURL(URL{File{files[0]}});
 }
 
-void DeckGUI::timerCallback() {
-    positionSlider.setValue(player->getPositionRelative(), dontSendNotification);
-    elapsedTimeLabel.setText(player->getElapsedTime(), dontSendNotification);
-}
-
 void DeckGUI::changeListenerCallback(juce::ChangeBroadcaster *source) {
     if (source == player) {
-        fileNameLabel.setText(player->getFileName(), dontSendNotification);
-
-        spinningDisc.setPlaying(player->isPlaying());
-
-        loadButton.setToggleState(!player->isLoaded(), dontSendNotification);
-
-        playPauseButton.setToggleState(player->isPlaying(), dontSendNotification);
-        playPauseButton.setButtonText(playPauseButton.getToggleState() ? "Pause" : "Play");
-
-        loopButton.setToggleState(player->isLooping(), dontSendNotification);
+        jogWheel.setPlaying(player->isPlaying());
     }
 }

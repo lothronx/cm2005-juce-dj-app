@@ -64,7 +64,8 @@ target_sources(MyDjApp
         Source/DJAudioPlayer.cpp
         Source/WaveformDisplay.cpp
         Source/DeckGUI.cpp
-        Source/SpinningDisc.cpp
+        Source/JogWheel.cpp
+        Source/TransportControls.cpp
         Source/CustomLookAndFeel.cpp
 )
 
