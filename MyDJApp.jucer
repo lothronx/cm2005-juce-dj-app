@@ -4,6 +4,10 @@
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1">
   <MAINGROUP id="yEF2gk" name="MyDJApp">
     <GROUP id="{F5A0A3F4-60E3-9ECA-77EA-84FFC910620C}" name="Source">
+      <FILE id="WQNgJw" name="WaveformDisplay.cpp" compile="1" resource="0"
+            file="Source/WaveformDisplay.cpp"/>
+      <FILE id="C4nZMu" name="WaveformDisplay.h" compile="0" resource="0"
+            file="Source/WaveformDisplay.h"/>
       <FILE id="CecXfN" name="CustomLookAndFeel.cpp" compile="1" resource="0"
             file="Source/CustomLookAndFeel.cpp"/>
       <FILE id="wWBBqR" name="CustomLookAndFeel.h" compile="0" resource="0"
@@ -20,10 +24,6 @@
       <FILE id="I7K4Bw" name="SpinningDisc.cpp" compile="1" resource="0"
             file="Source/SpinningDisc.cpp"/>
       <FILE id="yHWi5T" name="SpinningDisc.h" compile="0" resource="0" file="Source/SpinningDisc.h"/>
-      <FILE id="TGs1lX" name="WaveformDislay.cpp" compile="1" resource="0"
-            file="Source/WaveformDislay.cpp"/>
-      <FILE id="NR0pq9" name="WaveformDislay.h" compile="0" resource="0"
-            file="Source/WaveformDislay.h"/>
     </GROUP>
   </MAINGROUP>
   <MODULES>
