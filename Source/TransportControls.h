@@ -23,9 +23,9 @@ private:
     DJAudioPlayer *player;
     WaveformDisplay *waveformDisplay;
 
-    TextButton loadButton{"load"};
-    TextButton playPauseButton{"play"};
-    TextButton loopButton{"loop"};
+    TextButton loadButton{"Load"};
+    TextButton playPauseButton{"Play"};
+    TextButton loopButton{"Loop"};
 
     juce::FileChooser fChooser{"Select a file..."};
 

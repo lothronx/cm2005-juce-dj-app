@@ -29,8 +29,6 @@ private:
 
     float rotationAngle{0.0f};
     const float rotationSpeed{0.03f};
-    const float fastForwardSpeed{0.1f};
-    const float fastRewindSpeed{-0.1f};
 
     void drawWheel(juce::Graphics &g, const float centreX, const float centreY);
 

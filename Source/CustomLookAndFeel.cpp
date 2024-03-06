@@ -33,7 +33,7 @@ void CustomLookAndFeel::drawLinearSlider(Graphics &g, int x, int y, int width, i
         g.fillRect(floatX + (floatWidth / 2) - 5, floatY, 10.0f,
                    floatHeight);
 
-        g.setColour(colour.withAlpha(0.7f));
+        g.setColour(colour.withAlpha(0.9f));
         float midPos = floatY + floatHeight / 2;
         g.fillRect(floatX + (floatWidth / 2) - 5, sliderPos, 10.0f, midPos - sliderPos);
 
