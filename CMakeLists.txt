@@ -101,9 +101,20 @@ target_compile_definitions(MyDjApp
 target_link_libraries(MyDjApp
     PRIVATE
         # GuiAppData            # If we'd created a binary data target, we'd link to it here
-        juce::juce_gui_extra
+        juce::juce_audio_basics
+        juce::juce_audio_devices
+        juce::juce_audio_formats
+        juce::juce_audio_processors
         juce::juce_audio_utils
-    PUBLIC
+        juce::juce_core
+        juce::juce_data_structures
+        juce::juce_dsp
+        juce::juce_events
+        juce::juce_graphics
+        juce::juce_gui_basics
+        juce::juce_gui_extra
+
+        PUBLIC
         juce::juce_recommended_config_flags
         juce::juce_recommended_lto_flags
         juce::juce_recommended_warning_flags)
