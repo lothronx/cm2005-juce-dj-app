@@ -5,21 +5,20 @@ WaveformDisplay::WaveformDisplay(AudioFormatManager &formatManagerToUse,
                                  DJAudioPlayer *_player,
                                  const juce::String &_deckName,
                                  const juce::Colour &_colour)
-        : player{_player}, fileLoaded{false}, colour{_colour}, deckNameLabel{_deckName, _deckName},
+        : player{_player}, colour{_colour}, deckNameLabel{_deckName, _deckName},
           audioThumb{1000, formatManagerToUse, cacheToUse} {
+
+    isLeftDeck = deckNameLabel.getText() == "A";
 
     deckNameLabel.setFont(Font(30.0f, Font::bold));
     deckNameLabel.setJustificationType(Justification::centred);
 
-
     fileNameLabel.setFont(Font(20.0f, Font::bold));
     fileNameLabel.setJustificationType(
-            deckNameLabel.getText() == "A" ? juce::Justification::centredLeft : juce::Justification::centredRight);
-    fileNameLabel.setText("Drag a song on this deck to load it", juce::dontSendNotification);
+            isLeftDeck ? juce::Justification::centredLeft : juce::Justification::centredRight);
 
     elapsedTimeLabel.setJustificationType(
-            deckNameLabel.getText() == "A" ? juce::Justification::centredRight : juce::Justification::centredLeft);
-    elapsedTimeLabel.setText("00:00", juce::dontSendNotification);
+            isLeftDeck ? juce::Justification::centredRight : juce::Justification::centredLeft);
 
     positionSlider.setRange(0.0, 1.0);
     positionSlider.setValue(0.0);
@@ -45,6 +44,7 @@ WaveformDisplay::~WaveformDisplay() {
 
 
 void WaveformDisplay::paint(Graphics &g) {
+
     g.fillAll(Colours::darkgrey);
 
     g.setColour(colour);
@@ -66,7 +66,6 @@ void WaveformDisplay::paint(Graphics &g) {
 }
 
 void WaveformDisplay::resized() {
-    bool isLeftDeck = deckNameLabel.getText() == "A";
     auto h = getHeight() / 2;
     auto w = getWidth() / 40;
 
@@ -77,7 +76,7 @@ void WaveformDisplay::resized() {
 }
 
 void WaveformDisplay::sliderValueChanged(juce::Slider *slider) {
-        player->setPositionRelative(slider->getValue());
+    player->setPositionRelative(slider->getValue());
 }
 
 void WaveformDisplay::timerCallback() {

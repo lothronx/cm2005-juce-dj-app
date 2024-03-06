@@ -17,6 +17,7 @@ public:
     ~WaveformDisplay() override;
 
     void paint(juce::Graphics &g) override;
+
     void resized() override;
 
     void sliderValueChanged(juce::Slider *slider) override;
@@ -25,19 +26,21 @@ public:
 
     void changeListenerCallback(juce::ChangeBroadcaster *source) override;
 
-    void loadURL(const juce::URL& audioURL);
+    void loadURL(const juce::URL &audioURL);
 
 private:
     DJAudioPlayer *player;
 
-    bool fileLoaded;
+    bool isLeftDeck;
+
+    bool fileLoaded {false};
 
     juce::Colour colour;
 
     Label deckNameLabel;
 
-    Label fileNameLabel;
-    Label elapsedTimeLabel;
+    Label fileNameLabel{"fileNameLabel", "Drag a song on this deck to load it"};
+    Label elapsedTimeLabel{"elapsedTimeLabel", "00:00.0"};
 
     AudioThumbnail audioThumb;
     Slider positionSlider;
