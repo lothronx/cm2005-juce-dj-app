@@ -4,10 +4,14 @@
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1">
   <MAINGROUP id="yEF2gk" name="MyDJApp">
     <GROUP id="{F5A0A3F4-60E3-9ECA-77EA-84FFC910620C}" name="Source">
-      <FILE id="ltocGD" name="TransportControl.cpp" compile="1" resource="0"
-            file="Source/TransportControl.cpp"/>
-      <FILE id="TLfCwI" name="TransportControl.h" compile="0" resource="0"
-            file="Source/TransportControl.h"/>
+      <FILE id="fGg3oG" name="SpeedSlider.cpp" compile="1" resource="0" file="Source/SpeedSlider.cpp"/>
+      <FILE id="HGwu90" name="SpeedSlider.h" compile="0" resource="0" file="Source/SpeedSlider.h"/>
+      <FILE id="d6MG5V" name="Knobs.cpp" compile="1" resource="0" file="Source/Knobs.cpp"/>
+      <FILE id="OOVURC" name="Knobs.h" compile="0" resource="0" file="Source/Knobs.h"/>
+      <FILE id="T7cuTc" name="TransportControls.cpp" compile="1" resource="0"
+            file="Source/TransportControls.cpp"/>
+      <FILE id="Bm56Qy" name="TransportControls.h" compile="0" resource="0"
+            file="Source/TransportControls.h"/>
       <FILE id="SHwHWG" name="JogWheel.cpp" compile="1" resource="0" file="Source/JogWheel.cpp"/>
       <FILE id="MO76sC" name="JogWheel.h" compile="0" resource="0" file="Source/JogWheel.h"/>
       <FILE id="WQNgJw" name="WaveformDisplay.cpp" compile="1" resource="0"

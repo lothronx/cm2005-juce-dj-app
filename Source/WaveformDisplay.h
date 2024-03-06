@@ -39,8 +39,8 @@ private:
 
     Label deckNameLabel;
 
-    Label fileNameLabel{"fileNameLabel", "Drag a song on this deck to load it"};
-    Label elapsedTimeLabel{"elapsedTimeLabel", "00:00.0"};
+    Label fileNameLabel{"File Name", "Drag a song on this deck to load it"};
+    Label elapsedTimeLabel{"Elapsed Time", "00:00.0"};
 
     AudioThumbnail audioThumb;
     Slider positionSlider;

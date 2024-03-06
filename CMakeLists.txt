@@ -62,11 +62,13 @@ target_sources(MyDjApp
         Source/Main.cpp
         Source/MainComponent.cpp
         Source/DJAudioPlayer.cpp
-        Source/WaveformDisplay.cpp
+        Source/CustomLookAndFeel.cpp
         Source/DeckGUI.cpp
+        Source/WaveformDisplay.cpp
         Source/JogWheel.cpp
         Source/TransportControls.cpp
-        Source/CustomLookAndFeel.cpp
+        Source/SpeedSlider.cpp
+        Source/Knobs.cpp
 )
 
 # `target_compile_definitions` adds some preprocessor definitions to our target. In a Projucer

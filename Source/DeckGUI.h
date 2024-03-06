@@ -6,10 +6,11 @@
 #include "WaveformDisplay.h"
 #include "JogWheel.h"
 #include "TransportControls.h"
+#include "SpeedSlider.h"
+#include "Knobs.h"
 
 class DeckGUI
         : public juce::Component,
-          public juce::Slider::Listener,
           public juce::FileDragAndDropTarget{
 
 public:
@@ -25,8 +26,6 @@ public:
 
     void resized() override;
 
-    void sliderValueChanged(juce::Slider *slider) override;
-
     bool isInterestedInFileDrag(const juce::StringArray &files) override;
 
     void filesDropped(const juce::StringArray &files, int x, int y) override;
@@ -39,16 +38,10 @@ private:
     CustomLookAndFeel customLookAndFeel;
 
     WaveformDisplay waveformDisplay;
-
     JogWheel jogWheel;
-
     TransportControls transportControls;
-
-    Label speedLabel;
-    Slider speedSlider;
-
-    Label volLabel;
-    Slider volSlider;
+    SpeedSlider speedSlider;
+    Knobs knobs;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(DeckGUI)
 };

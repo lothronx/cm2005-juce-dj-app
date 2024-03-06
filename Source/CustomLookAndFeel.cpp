@@ -20,12 +20,12 @@ void CustomLookAndFeel::drawLinearSlider(Graphics &g, int x, int y, int width, i
         for (int i = 0; i < numTicks; ++i) {
             float tickPosition = floatY + static_cast<float>(i) * spacing;
             if (i == 0 || i == numTicks - 1 || i == numTicks / 2)
-                g.drawLine(floatX + 5, tickPosition,
-                           floatX + floatWidth - 5, tickPosition,
+                g.drawLine(floatX + 8, tickPosition,
+                           floatX + floatWidth - 8, tickPosition,
                            1.0f);
             else
-                g.drawLine(floatX + 10, tickPosition,
-                           floatX + floatWidth - 10, tickPosition,
+                g.drawLine(floatX + 12, tickPosition,
+                           floatX + floatWidth - 12, tickPosition,
                            0.5f);
         }
 
@@ -33,12 +33,12 @@ void CustomLookAndFeel::drawLinearSlider(Graphics &g, int x, int y, int width, i
         g.fillRect(floatX + (floatWidth / 2) - 5, floatY, 10.0f,
                    floatHeight);
 
-        g.setColour(colour.withAlpha(0.6f));
+        g.setColour(colour.withAlpha(0.7f));
         float midPos = floatY + floatHeight / 2;
         g.fillRect(floatX + (floatWidth / 2) - 5, sliderPos, 10.0f, midPos - sliderPos);
 
         g.setColour(colour);
-        g.fillRoundedRectangle(floatX + 5, sliderPos - 10, floatWidth - 10, 20.0f,
+        g.fillRoundedRectangle(floatX + 7, sliderPos - 8, floatWidth - 14, 16.0f,
                                4.0f);
 
     }

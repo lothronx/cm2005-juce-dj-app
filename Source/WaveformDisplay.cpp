@@ -5,7 +5,7 @@ WaveformDisplay::WaveformDisplay(AudioFormatManager &formatManagerToUse,
                                  DJAudioPlayer *_player,
                                  const juce::String &_deckName,
                                  const juce::Colour &_colour)
-        : player{_player}, colour{_colour}, deckNameLabel{_deckName, _deckName},
+        : player{_player}, colour{_colour}, deckNameLabel{"Deck Name", _deckName},
           audioThumb{1000, formatManagerToUse, cacheToUse} {
 
     isLeftDeck = deckNameLabel.getText() == "A";

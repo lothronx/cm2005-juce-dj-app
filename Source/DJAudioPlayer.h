@@ -1,6 +1,7 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include <juce_dsp/juce_dsp.h>
 
 class DJAudioPlayer : public juce::AudioSource,
                       public ChangeBroadcaster {
@@ -16,19 +17,25 @@ public:
 
     void loadURL(const juce::URL &audioURL);
 
-    void setGain(double gain);
-
-    void setTempo(double relativeSpeedInPercent);
-
-    void setPositionRelative(double relativePosition);
-
-    double getPositionRelative() const;
-
-    void setLooping(bool shouldLoop);
-
     juce::String getFileName() const;
 
     juce::String getElapsedTime() const;
+
+    double getPositionRelative() const;
+
+    void setPositionRelative(double relativePosition);
+
+    void setSpeed(double relativeSpeedInPercent);
+
+    void setGain(double gain);
+
+    void setHighGain(float gainInDb);
+
+    void setMidGain(float gainInDb);
+
+    void setLowGain(float gainInDb);
+
+    void setLooping(bool shouldLoop);
 
     void start();
 

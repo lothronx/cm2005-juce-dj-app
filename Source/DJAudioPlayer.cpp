@@ -40,37 +40,6 @@ void DJAudioPlayer::loadURL(const juce::URL &audioURL) {
     }
 }
 
-void DJAudioPlayer::setGain(double gain) {
-    if (gain < 0 || gain > 1.0) {
-        std::cout << "DJAudioPlayer::setGain: warning set gain " << gain << " out of range" << std::endl;
-    } else {
-        transportSource.setGain(static_cast<float>(gain));
-    }
-}
-
-void DJAudioPlayer::setTempo(double relativeSpeedInPercent) {
-    double tempo = 1 + (relativeSpeedInPercent / 100);
-    resampleSource.setResamplingRatio(tempo);
-
-}
-
-void DJAudioPlayer::setPositionRelative(double relativePosition) {
-    double posInSecs = transportSource.getLengthInSeconds() * relativePosition;
-    transportSource.setPosition(posInSecs);
-}
-
-double DJAudioPlayer::getPositionRelative() const {
-    if (static_cast<bool>(transportSource.getLengthInSeconds())) {
-        return transportSource.getCurrentPosition() / transportSource.getLengthInSeconds();
-    }
-    return 0.0;
-}
-
-void DJAudioPlayer::setLooping(bool shouldLoop) {
-    readerSource->setLooping(shouldLoop);
-    sendChangeMessage();
-}
-
 juce::String DJAudioPlayer::getFileName() const {
     return fileName;
 }
@@ -84,6 +53,42 @@ juce::String DJAudioPlayer::getElapsedTime() const {
     int tenthsOfSecond = static_cast<int>(fractionalSeconds * 10.0);
 
     return juce::String::formatted("%02d:%02d.%1d", minutes, wholeSeconds, tenthsOfSecond);
+}
+
+double DJAudioPlayer::getPositionRelative() const {
+    if (static_cast<bool>(transportSource.getLengthInSeconds())) {
+        return transportSource.getCurrentPosition() / transportSource.getLengthInSeconds();
+    }
+    return 0.0;
+}
+
+void DJAudioPlayer::setPositionRelative(double relativePosition) {
+    double posInSecs = transportSource.getLengthInSeconds() * relativePosition;
+    transportSource.setPosition(posInSecs);
+}
+
+void DJAudioPlayer::setSpeed(double relativeSpeedInPercent) {
+    double tempo = 1 + (relativeSpeedInPercent / 100);
+    resampleSource.setResamplingRatio(tempo);
+}
+
+void DJAudioPlayer::setGain(double gain) {
+    if (gain < 0 || gain > 1.0) {
+        std::cout << "DJAudioPlayer::setGain: warning set gain " << gain << " out of range" << std::endl;
+    } else {
+        transportSource.setGain(static_cast<float>(gain));
+    }
+}
+
+void DJAudioPlayer::setHighGain(float gainInDb) {}
+
+void DJAudioPlayer::setMidGain(float gainInDb) {}
+
+void DJAudioPlayer::setLowGain(float gainInDb) {}
+
+void DJAudioPlayer::setLooping(bool shouldLoop) {
+    readerSource->setLooping(shouldLoop);
+    sendChangeMessage();
 }
 
 void DJAudioPlayer::start() {
