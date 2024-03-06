@@ -1,7 +1,10 @@
 #include "JogWheel.h"
 
-JogWheel::JogWheel(const Colour &_colour)
-        : colour{_colour} {
+JogWheel::JogWheel(DJAudioPlayer *_player, const Colour &_colour)
+        : player{_player}, colour{_colour} {
+
+    player->addChangeListener(this);
+
     startTimer(1000 / 60);
 }
 
@@ -30,10 +33,9 @@ void JogWheel::timerCallback() {
     }
 }
 
-void JogWheel::setPlaying(bool shouldBePlaying) {
-    isPlaying = shouldBePlaying;
+void JogWheel::changeListenerCallback(juce::ChangeBroadcaster *source) {
+    isPlaying = player->isPlaying();
 }
-
 
 void JogWheel::drawWheel(juce::Graphics &g, const float centreX, const float centreY) {
     auto radius = static_cast<float>(jmin(getWidth(), getHeight())) / 2 - 5;

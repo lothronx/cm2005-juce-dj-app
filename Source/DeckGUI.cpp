@@ -5,8 +5,8 @@ DeckGUI::DeckGUI(DJAudioPlayer *_player,
                  AudioThumbnailCache &cacheToUse,
                  const Colour &_colour,
                  const String &_deckName)
-        : player{_player}, deckName{_deckName}, colour{_colour}, customLookAndFeel{_colour},
-          waveformDisplay{formatManagerToUse, cacheToUse, _player, _deckName, _colour}, jogWheel{_colour},
+        : player{_player}, isLeftDeck{_deckName == "A"}, customLookAndFeel{_colour},
+          waveformDisplay{formatManagerToUse, cacheToUse, _player, _deckName, _colour}, jogWheel{_player, _colour},
           transportControls{_player, &waveformDisplay} {
 
     setLookAndFeel(&customLookAndFeel);
@@ -36,9 +36,6 @@ DeckGUI::DeckGUI(DJAudioPlayer *_player,
     addAndMakeVisible(volLabel);
     addAndMakeVisible(volSlider);
 
-
-    player->addChangeListener(this);
-
     speedSlider.addListener(this);
     volSlider.addListener(this);
 }
@@ -50,8 +47,6 @@ DeckGUI::~DeckGUI() {
 
 void DeckGUI::paint(Graphics &g) {
     Component::paint(g);
-
-    bool isLeftDeck = deckName == "A";
 
     g.setColour(Colours::grey.withAlpha(0.5f));
     g.drawRect(isLeftDeck ? 0 : getWidth() * 1 / 5, 0, getWidth() * 4 / 5, getHeight(), 1);
@@ -65,7 +60,6 @@ void DeckGUI::paint(Graphics &g) {
 }
 
 void DeckGUI::resized() {
-    bool isLeftDeck = deckName == "A";
     auto h = getHeight() / 100;
     auto w = getWidth() / 50;
 
@@ -96,10 +90,4 @@ bool DeckGUI::isInterestedInFileDrag(const StringArray &files) {
 void DeckGUI::filesDropped(const StringArray &files, int x, int y) {
     player->loadURL(URL{File{files[0]}});
     waveformDisplay.loadURL(URL{File{files[0]}});
-}
-
-void DeckGUI::changeListenerCallback(juce::ChangeBroadcaster *source) {
-    if (source == player) {
-        jogWheel.setPlaying(player->isPlaying());
-    }
 }

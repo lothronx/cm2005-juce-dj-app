@@ -1,13 +1,14 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include "DJAudioPlayer.h"
 
 //==============================================================================
 /*
 */
-class JogWheel : public juce::Component, public juce::Timer {
+class JogWheel : public juce::Component, public juce::Timer, public juce::ChangeListener {
 public:
-    explicit JogWheel(const Colour &colour);
+    JogWheel(DJAudioPlayer *player, const Colour &colour);
 
     ~JogWheel() override;
 
@@ -17,9 +18,10 @@ public:
 
     void timerCallback() override;
 
-    void setPlaying(bool shouldBePlaying);
+    void changeListenerCallback(juce::ChangeBroadcaster *source) override;
 
 private:
+    DJAudioPlayer *player;
 
     Colour colour;
 

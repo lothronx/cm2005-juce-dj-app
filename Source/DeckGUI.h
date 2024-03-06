@@ -10,8 +10,7 @@
 class DeckGUI
         : public juce::Component,
           public juce::Slider::Listener,
-          public juce::FileDragAndDropTarget,
-          public juce::ChangeListener{
+          public juce::FileDragAndDropTarget{
 
 public:
     DeckGUI(DJAudioPlayer *player,
@@ -32,13 +31,11 @@ public:
 
     void filesDropped(const juce::StringArray &files, int x, int y) override;
 
-    void changeListenerCallback(juce::ChangeBroadcaster *source) override;
-
 private:
     DJAudioPlayer *player;
 
-    const String deckName;
-    const Colour colour;
+    bool isLeftDeck;
+
     CustomLookAndFeel customLookAndFeel;
 
     WaveformDisplay waveformDisplay;
