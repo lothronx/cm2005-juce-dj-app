@@ -10,11 +10,11 @@
 #include "MainComponent.h"
 
 //==============================================================================
-class OtodecksApplication  : public juce::JUCEApplication
+class MyDjAppApplication  : public juce::JUCEApplication
 {
 public:
     //==============================================================================
-    OtodecksApplication() {}
+    MyDjAppApplication() {}
 
     const juce::String getApplicationName() override       { return ProjectInfo::projectName; }
     const juce::String getApplicationVersion() override    { return ProjectInfo::versionString; }
@@ -102,4 +102,4 @@ private:
 
 //==============================================================================
 // This macro generates the main() routine that launches the app.
-START_JUCE_APPLICATION (OtodecksApplication)
+START_JUCE_APPLICATION (MyDjAppApplication)

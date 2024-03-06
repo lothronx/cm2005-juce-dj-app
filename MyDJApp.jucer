@@ -1,33 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="ownLkF" name="Otodecks" projectType="guiapp" useAppConfig="0"
+<JUCERPROJECT id="p96f61" name="MyDJApp" projectType="guiapp" useAppConfig="0"
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1">
-  <MAINGROUP id="fQfD9P" name="Otodecks">
-    <GROUP id="{BE43F6B4-A195-393A-C0DE-2A4FD161CF4E}" name="Source">
-      <FILE id="zRPpV5" name="CustomLookAndFeel.cpp" compile="1" resource="0"
+  <MAINGROUP id="yEF2gk" name="MyDJApp">
+    <GROUP id="{F5A0A3F4-60E3-9ECA-77EA-84FFC910620C}" name="Source">
+      <FILE id="CecXfN" name="CustomLookAndFeel.cpp" compile="1" resource="0"
             file="Source/CustomLookAndFeel.cpp"/>
-      <FILE id="SySDW2" name="CustomLookAndFeel.h" compile="0" resource="0"
+      <FILE id="wWBBqR" name="CustomLookAndFeel.h" compile="0" resource="0"
             file="Source/CustomLookAndFeel.h"/>
-      <FILE id="eJ8XkG" name="SpinningDisc.cpp" compile="1" resource="0"
-            file="Source/SpinningDisc.cpp"/>
-      <FILE id="mfJ2Fj" name="SpinningDisc.h" compile="0" resource="0" file="Source/SpinningDisc.h"/>
-      <FILE id="cvgYkR" name="DeckGUI.cpp" compile="1" resource="0" file="Source/DeckGUI.cpp"/>
-      <FILE id="AckCfe" name="DeckGUI.h" compile="0" resource="0" file="Source/DeckGUI.h"/>
-      <FILE id="rZyosz" name="DJAudioPlayer.cpp" compile="1" resource="0"
+      <FILE id="Me6EDF" name="DeckGUI.cpp" compile="1" resource="0" file="Source/DeckGUI.cpp"/>
+      <FILE id="LHOL4J" name="DeckGUI.h" compile="0" resource="0" file="Source/DeckGUI.h"/>
+      <FILE id="U9r0E7" name="DJAudioPlayer.cpp" compile="1" resource="0"
             file="Source/DJAudioPlayer.cpp"/>
-      <FILE id="zZcVrn" name="DJAudioPlayer.h" compile="0" resource="0" file="Source/DJAudioPlayer.h"/>
-      <FILE id="SQQ4Nk" name="PlaylistComponent.cpp" compile="1" resource="0"
-            file="Source/PlaylistComponent.cpp"/>
-      <FILE id="b76bzT" name="PlaylistComponent.h" compile="0" resource="0"
-            file="Source/PlaylistComponent.h"/>
-      <FILE id="zGIIIV" name="WaveformDisplay.cpp" compile="1" resource="0"
-            file="Source/WaveformDisplay.cpp"/>
-      <FILE id="E6TKYN" name="WaveformDisplay.h" compile="0" resource="0"
-            file="Source/WaveformDisplay.h"/>
-      <FILE id="YRik9y" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
-      <FILE id="lhf4jo" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
-      <FILE id="hV0Oj1" name="MainComponent.cpp" compile="1" resource="0"
+      <FILE id="SRHeSO" name="DJAudioPlayer.h" compile="0" resource="0" file="Source/DJAudioPlayer.h"/>
+      <FILE id="QLHo8K" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
+      <FILE id="qQedNu" name="MainComponent.cpp" compile="1" resource="0"
             file="Source/MainComponent.cpp"/>
+      <FILE id="UlRvnW" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
+      <FILE id="I7K4Bw" name="SpinningDisc.cpp" compile="1" resource="0"
+            file="Source/SpinningDisc.cpp"/>
+      <FILE id="yHWi5T" name="SpinningDisc.h" compile="0" resource="0" file="Source/SpinningDisc.h"/>
+      <FILE id="TGs1lX" name="WaveformDislay.cpp" compile="1" resource="0"
+            file="Source/WaveformDislay.cpp"/>
+      <FILE id="NR0pq9" name="WaveformDislay.h" compile="0" resource="0"
+            file="Source/WaveformDislay.h"/>
     </GROUP>
   </MAINGROUP>
   <MODULES>
@@ -47,8 +43,8 @@
   <EXPORTFORMATS>
     <XCODE_MAC targetFolder="Builds/MacOSX">
       <CONFIGURATIONS>
-        <CONFIGURATION isDebug="1" name="Debug" targetName="Otodecks"/>
-        <CONFIGURATION isDebug="0" name="Release" targetName="Otodecks"/>
+        <CONFIGURATION isDebug="1" name="Debug" targetName="MyDJApp"/>
+        <CONFIGURATION isDebug="0" name="Release" targetName="MyDJApp"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_audio_basics" path="../JUCE/modules"/>
