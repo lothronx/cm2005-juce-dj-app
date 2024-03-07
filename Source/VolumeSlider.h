@@ -23,14 +23,5 @@ private:
     Label volLabel{"Volume", "Volume"};
     Slider volSlider;
 
-    Label highLabel{"EQ High", "High"};
-    Slider highSlider;
-
-    Label midLabel{"EQ Mid", "Mid"};
-    Slider midSlider;
-
-    Label lowLabel{"EQ Low", "Low"};
-    Slider lowSlider;
-
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (VolumeSlider)
 };

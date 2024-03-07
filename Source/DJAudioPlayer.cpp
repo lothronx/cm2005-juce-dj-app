@@ -7,31 +7,17 @@ DJAudioPlayer::DJAudioPlayer(AudioFormatManager &_formatManager)
 void DJAudioPlayer::prepareToPlay(int samplesPerBlockExpected, double sampleRate) {
     transportSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
     resampleSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
-
-    spec.sampleRate = sampleRate;
-    spec.maximumBlockSize = static_cast<uint32>(samplesPerBlockExpected);
-    spec.numChannels = 2;
-
-    lowFilter.state = juce::dsp::IIR::Coefficients<float>::makeLowPass(sampleRate, 440.0);
-    lowFilter.prepare(spec);
 }
 
 void DJAudioPlayer::getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToFill) {
-    *lowFilter.state = juce::dsp::IIR::ArrayCoefficients<float>::makeLowPass(spec.sampleRate, 440.0f, 20.2f);
     if (readerSource == nullptr) {
         bufferToFill.clearActiveBufferRegion();
         return;
     }
 
-    if (transportSource.hasStreamFinished()) {
-        transportSource.setPosition(0);
-    }
+    if (transportSource.hasStreamFinished()) transportSource.setPosition(0);
 
     resampleSource.getNextAudioBlock(bufferToFill);
-
-    dsp::AudioBlock<float> block(*bufferToFill.buffer);
-    dsp::ProcessContextReplacing<float> context(block);
-    lowFilter.process(context);
 
     float rms = bufferToFill.buffer->getRMSLevel(0, 0, bufferToFill.buffer->getNumSamples());
     rmsInDb = juce::Decibels::gainToDecibels(rms);
@@ -102,20 +88,6 @@ void DJAudioPlayer::setGain(double gain) {
     sendChangeMessage();
 }
 
-void DJAudioPlayer::setHighGain(float gainInDb) {
-
-}
-
-void DJAudioPlayer::setMidGain(float gainInDb) {
-
-}
-
-void DJAudioPlayer::setLowGain(float gainInDb) {
-    if (!approximatelyEqual(spec.sampleRate, 0.0)) {
-        *lowFilter.state = juce::dsp::IIR::ArrayCoefficients<float>::makeLowPass(spec.sampleRate, 440.0f, 20.2f);
-    }
-}
-
 float DJAudioPlayer::getRMS() const {
     return rmsInDb;
 }
@@ -146,4 +118,3 @@ bool DJAudioPlayer::isPlaying() const {
 bool DJAudioPlayer::isLooping() const {
     return transportSource.isLooping();
 }
-
