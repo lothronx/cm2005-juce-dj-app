@@ -1,7 +1,7 @@
-#include "Knobs.h"
+#include "VolumeSlider.h"
 
 //==============================================================================
-Knobs::Knobs(DJAudioPlayer *_player) : player{_player} {
+VolumeSlider::VolumeSlider(DJAudioPlayer *_player) : player{_player} {
 
     volLabel.setJustificationType(Justification::centred);
     volLabel.attachToComponent(&volSlider, false);
@@ -44,20 +44,21 @@ Knobs::Knobs(DJAudioPlayer *_player) : player{_player} {
     addAndMakeVisible(lowLabel);
     addAndMakeVisible(lowSlider);
 
+    player->addChangeListener(this);
     volSlider.addListener(this);
     highSlider.addListener(this);
     midSlider.addListener(this);
     lowSlider.addListener(this);
 }
 
-Knobs::~Knobs() {
+VolumeSlider::~VolumeSlider() {
 }
 
-void Knobs::paint(juce::Graphics &g) {
+void VolumeSlider::paint(juce::Graphics &g) {
 
 }
 
-void Knobs::resized() {
+void VolumeSlider::resized() {
     auto h = getHeight() / 40;
     auto w = getWidth();
 
@@ -71,7 +72,7 @@ void Knobs::resized() {
     lowSlider.setBounds(w * 0, h * 33, w, h * 7);
 }
 
-void Knobs::sliderValueChanged(juce::Slider *slider) {
+void VolumeSlider::sliderValueChanged(juce::Slider *slider) {
     if (slider == &volSlider) {
         player->setGain(slider->getValue());
     }
@@ -83,5 +84,11 @@ void Knobs::sliderValueChanged(juce::Slider *slider) {
     }
     if (slider == &lowSlider) {
         player->setLowGain(static_cast<float>(slider->getValue()));
+    }
+}
+
+void VolumeSlider::changeListenerCallback(juce::ChangeBroadcaster *source) {
+    if (source == player) {
+        volSlider.setValue(player->getGain());
     }
 }

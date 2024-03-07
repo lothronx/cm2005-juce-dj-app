@@ -28,6 +28,8 @@ public:
 
     void setSpeed(double relativeSpeedInPercent);
 
+    double getGain() const;
+
     void setGain(double gain);
 
     void setHighGain(float gainInDb);
@@ -60,11 +62,12 @@ private:
     ResamplingAudioSource resampleSource{&transportSource, false, 2};
 
     dsp::ProcessSpec spec{};
-    using Filter = juce::dsp::ProcessorDuplicator<juce::dsp::IIR::Filter<float>, juce::dsp::IIR::Coefficients<float>>;
-    juce::dsp::ProcessorChain<Filter, Filter, Filter> processorChain;
+    juce::dsp::ProcessorDuplicator<juce::dsp::IIR::Filter<float>, juce::dsp::IIR::Coefficients<float>> lowFilter;
+
 
     String fileName;
 
     // Root Mean Square (RMS) Level
     float rmsInDb {0.0f};
 };
+

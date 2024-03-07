@@ -16,6 +16,8 @@ MainComponent::MainComponent() {
 
     addAndMakeVisible(deckGUI1);
     addAndMakeVisible(deckGUI2);
+    addAndMakeVisible(crossfader);
+
     formatManager.registerBasicFormats();
 }
 
@@ -52,6 +54,7 @@ void MainComponent::paint(juce::Graphics &g) {
 void MainComponent::resized() {
     deckGUI1.setBounds(0, 0, getWidth() / 2, getHeight());
     deckGUI2.setBounds(getWidth() / 2, 0, getWidth() / 2, getHeight());
+    crossfader.setBounds(getWidth() * 2 / 5, getHeight() * 4 / 5, getWidth() / 5, getHeight() / 5);
 }
 
 

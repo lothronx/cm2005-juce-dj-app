@@ -68,8 +68,9 @@ target_sources(MyDjApp
         Source/JogWheel.cpp
         Source/TransportControls.cpp
         Source/SpeedSlider.cpp
-        Source/Knobs.cpp
+        Source/VolumeSlider.cpp
         Source/VUMeter.cpp
+        Source/Crossfader.cpp
 )
 
 # `target_compile_definitions` adds some preprocessor definitions to our target. In a Projucer

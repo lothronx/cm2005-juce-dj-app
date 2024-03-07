@@ -6,6 +6,8 @@ class CustomLookAndFeel : public juce::LookAndFeel_V4 {
 public:
     explicit CustomLookAndFeel(const Colour &_colour);
 
+    CustomLookAndFeel(const Colour &_colour1, const Colour &_colour2);
+
     void drawLinearSlider(Graphics &g, int x, int y, int width, int height,
                           float sliderPos, float minSliderPos, float maxSliderPos,
                           Slider::SliderStyle style, Slider &slider) override;
@@ -18,4 +20,6 @@ public:
 
 private:
     Colour colour;
+
+    Colour colour1, colour2;
 };

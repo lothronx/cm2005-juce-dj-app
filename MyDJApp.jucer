@@ -4,6 +4,8 @@
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1">
   <MAINGROUP id="yEF2gk" name="MyDJApp">
     <GROUP id="{F5A0A3F4-60E3-9ECA-77EA-84FFC910620C}" name="Source">
+      <FILE id="rMdzgS" name="Crossfader.cpp" compile="1" resource="0" file="Source/Crossfader.cpp"/>
+      <FILE id="Nm31rU" name="Crossfader.h" compile="0" resource="0" file="Source/Crossfader.h"/>
       <FILE id="CecXfN" name="CustomLookAndFeel.cpp" compile="1" resource="0"
             file="Source/CustomLookAndFeel.cpp"/>
       <FILE id="wWBBqR" name="CustomLookAndFeel.h" compile="0" resource="0"

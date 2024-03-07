@@ -3,6 +3,7 @@
 #include <JuceHeader.h>
 #include "DJAudioPlayer.h"
 #include "DeckGUI.h"
+#include "Crossfader.h"
 
 class MainComponent : public juce::AudioAppComponent {
 public:
@@ -31,5 +32,8 @@ private:
 
     MixerAudioSource mixerSource;
 
+    Crossfader crossfader{&player1, &player2, color1, color2};
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };
+
