@@ -3,7 +3,7 @@
 #include <JuceHeader.h>
 
 class DJAudioPlayer : public juce::AudioSource,
-                      public ChangeBroadcaster{
+                      public ChangeBroadcaster, private Timer{
 
 public:
     explicit DJAudioPlayer(AudioFormatManager &_formatManager);
@@ -44,6 +44,7 @@ public:
 
     bool isLooping() const;
 
+
 private:
     AudioFormatManager &formatManager;
 
@@ -57,4 +58,7 @@ private:
 
     // Root Mean Square (RMS) Level
     float rmsInDb {0.0f};
+
+
+    void timerCallback() override;
 };

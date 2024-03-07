@@ -99,12 +99,12 @@ void DJAudioPlayer::setLooping(bool shouldLoop) {
 
 void DJAudioPlayer::start() {
     transportSource.start();
+    startTimer(100);
     sendChangeMessage();
 }
 
 void DJAudioPlayer::stop() {
     transportSource.stop();
-    sendChangeMessage();
 }
 
 bool DJAudioPlayer::isLoaded() const {
@@ -117,4 +117,11 @@ bool DJAudioPlayer::isPlaying() const {
 
 bool DJAudioPlayer::isLooping() const {
     return transportSource.isLooping();
+}
+
+void DJAudioPlayer::timerCallback() {
+    if (!transportSource.isPlaying()) {
+        stopTimer();
+        sendChangeMessage();
+    }
 }
