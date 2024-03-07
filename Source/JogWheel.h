@@ -6,7 +6,9 @@
 //==============================================================================
 /*
 */
-class JogWheel : public juce::Component, public juce::Timer, public juce::ChangeListener {
+class JogWheel : public juce::Component,
+                 public juce::Timer,
+                 public juce::ChangeListener {
 public:
     JogWheel(DJAudioPlayer *player, const Colour &colour);
 

@@ -4,7 +4,7 @@
 #include <juce_dsp/juce_dsp.h>
 
 class DJAudioPlayer : public juce::AudioSource,
-                      public ChangeBroadcaster {
+                      public ChangeBroadcaster{
 
 public:
     explicit DJAudioPlayer(AudioFormatManager &_formatManager);
@@ -49,8 +49,16 @@ public:
 
 private:
     AudioFormatManager &formatManager;
+
     std::unique_ptr<AudioFormatReaderSource> readerSource;
+
     AudioTransportSource transportSource;
+
     ResamplingAudioSource resampleSource{&transportSource, false, 2};
+
+    dsp::ProcessSpec spec{};
+    using Filter = juce::dsp::ProcessorDuplicator<juce::dsp::IIR::Filter<float>, juce::dsp::IIR::Coefficients<float>>;
+    juce::dsp::ProcessorChain<Filter, Filter, Filter> processorChain;
+
     String fileName;
 };

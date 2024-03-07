@@ -1,3 +1,4 @@
+
 #include "DJAudioPlayer.h"
 
 DJAudioPlayer::DJAudioPlayer(AudioFormatManager &_formatManager)
@@ -6,6 +7,19 @@ DJAudioPlayer::DJAudioPlayer(AudioFormatManager &_formatManager)
 void DJAudioPlayer::prepareToPlay(int samplesPerBlockExpected, double sampleRate) {
     transportSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
     resampleSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
+
+    auto &lowFilter = processorChain.get<0>();
+    auto &midFilter = processorChain.get<1>();
+    auto &highFilter = processorChain.get<2>();
+
+    lowFilter.state = *juce::dsp::IIR::Coefficients<float>::makeLowShelf(sampleRate, 100.0f, 1.0f, 1.0f);
+    midFilter.state = *juce::dsp::IIR::Coefficients<float>::makePeakFilter(sampleRate, 1000.0f, 1.0f, 1.0f);
+    highFilter.state = *juce::dsp::IIR::Coefficients<float>::makeHighShelf(sampleRate, 5000.0f, 1.0f, 1.0f);
+
+    spec.sampleRate = sampleRate;
+    spec.maximumBlockSize = static_cast<uint32>(samplesPerBlockExpected);
+    spec.numChannels = 2;
+    processorChain.prepare(spec);
 }
 
 void DJAudioPlayer::getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToFill) {
@@ -13,11 +27,16 @@ void DJAudioPlayer::getNextAudioBlock(const juce::AudioSourceChannelInfo &buffer
         bufferToFill.clearActiveBufferRegion();
         return;
     }
-    resampleSource.getNextAudioBlock(bufferToFill);
 
     if (transportSource.hasStreamFinished()) {
         transportSource.setPosition(0);
     }
+
+    resampleSource.getNextAudioBlock(bufferToFill);
+
+    dsp::AudioBlock<float> block(*bufferToFill.buffer);
+    dsp::ProcessContextReplacing<float> context(block);
+    processorChain.process(context);
 }
 
 void DJAudioPlayer::releaseResources() {
@@ -80,11 +99,23 @@ void DJAudioPlayer::setGain(double gain) {
     }
 }
 
-void DJAudioPlayer::setHighGain(float gainInDb) {}
+void DJAudioPlayer::setHighGain(float gainInDb) {
+    auto &highFilter = processorChain.get<2>();
+    highFilter.state = *juce::dsp::IIR::Coefficients<float>::makeHighShelf(spec.sampleRate, 5000.0f, 1.0f,
+                                                                           juce::Decibels::decibelsToGain(gainInDb));
+}
 
-void DJAudioPlayer::setMidGain(float gainInDb) {}
+void DJAudioPlayer::setMidGain(float gainInDb) {
+    auto &midFilter = processorChain.get<1>();
+    midFilter.state = *juce::dsp::IIR::Coefficients<float>::makePeakFilter(spec.sampleRate, 1000.0f, 1.0f,
+                                                                           juce::Decibels::decibelsToGain(gainInDb));
+}
 
-void DJAudioPlayer::setLowGain(float gainInDb) {}
+void DJAudioPlayer::setLowGain(float gainInDb) {
+    auto &lowFilter = processorChain.get<0>();
+    lowFilter.state = *juce::dsp::IIR::Coefficients<float>::makeLowShelf(spec.sampleRate, 100.0f, 1.0f,
+                                                                         juce::Decibels::decibelsToGain(gainInDb));
+}
 
 void DJAudioPlayer::setLooping(bool shouldLoop) {
     readerSource->setLooping(shouldLoop);

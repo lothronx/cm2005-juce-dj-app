@@ -5,7 +5,7 @@ Knobs::Knobs(DJAudioPlayer *_player) : player{_player} {
 
     volLabel.setJustificationType(Justification::centred);
     volLabel.attachToComponent(&volSlider, false);
-    volSlider.setRange(0.0, 1.0);
+    volSlider.setRange(0, 1.0);
     volSlider.setValue(0.5);
     volSlider.setDoubleClickReturnValue(true, 0.5);
     volSlider.setSliderStyle(Slider::SliderStyle::Rotary);
@@ -13,25 +13,25 @@ Knobs::Knobs(DJAudioPlayer *_player) : player{_player} {
 
     highLabel.setJustificationType(Justification::centred);
     highLabel.attachToComponent(&highSlider, false);
-    highSlider.setRange(0.0, 1.0);
-    highSlider.setValue(0.5);
-    highSlider.setDoubleClickReturnValue(true, 0.5);
+    highSlider.setRange(-24.0, 24.0);
+    highSlider.setValue(0);
+    highSlider.setDoubleClickReturnValue(true, 0);
     highSlider.setSliderStyle(Slider::SliderStyle::Rotary);
     highSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
 
     midLabel.setJustificationType(Justification::centred);
     midLabel.attachToComponent(&midSlider, false);
-    midSlider.setRange(0.0, 1.0);
-    midSlider.setValue(0.5);
-    midSlider.setDoubleClickReturnValue(true, 0.5);
+    midSlider.setRange(-24.0, 24.0);
+    midSlider.setValue(0);
+    midSlider.setDoubleClickReturnValue(true, 0);
     midSlider.setSliderStyle(Slider::SliderStyle::Rotary);
     midSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
 
     lowLabel.setJustificationType(Justification::centred);
     lowLabel.attachToComponent(&lowSlider, false);
-    lowSlider.setRange(0.0, 1.0);
-    lowSlider.setValue(0.5);
-    lowSlider.setDoubleClickReturnValue(true, 0.5);
+    lowSlider.setRange(-24.0, 24.0);
+    lowSlider.setValue(0);
+    lowSlider.setDoubleClickReturnValue(true, 0);
     lowSlider.setSliderStyle(Slider::SliderStyle::Rotary);
     lowSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
 
@@ -76,12 +76,12 @@ void Knobs::sliderValueChanged(juce::Slider *slider) {
         player->setGain(slider->getValue());
     }
     if (slider == &highSlider) {
-        player->setHighGain(slider->getValue());
+        player->setHighGain(static_cast<float>(slider->getValue()));
     }
     if (slider == &midSlider) {
-        player->setMidGain(slider->getValue());
+        player->setMidGain(static_cast<float>(slider->getValue()));
     }
     if (slider == &lowSlider) {
-        player->setLowGain(slider->getValue());
+        player->setLowGain(static_cast<float>(slider->getValue()));
     }
 }
