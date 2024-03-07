@@ -42,7 +42,7 @@ private:
     JogWheel jogWheel;
     TransportControls transportControls;
     SpeedSlider speedSlider;
-    VolumeSlider knobs;
+    VolumeSlider volumeSlider;
     VUMeter vuMeter;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(DeckGUI)

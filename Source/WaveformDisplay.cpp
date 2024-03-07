@@ -66,13 +66,13 @@ void WaveformDisplay::paint(Graphics &g) {
 }
 
 void WaveformDisplay::resized() {
-    auto h = getHeight() / 2;
-    auto w = getWidth() / 40;
+    auto h = getHeight();
+    auto w = getWidth();
 
-    deckNameLabel.setBounds(isLeftDeck ? 0 : w * 37, 0, w * 3, h * 2);
-    fileNameLabel.setBounds(isLeftDeck ? w * 3 : 0, 0, w * 37, h);
+    deckNameLabel.setBounds(isLeftDeck ? 0 : w * 37 / 40, 0, w * 3 / 40, h);
+    fileNameLabel.setBounds(isLeftDeck ? w * 3 / 40 : 0, 0, w * 37 / 40, h / 2);
     elapsedTimeLabel.setBounds(fileNameLabel.getBounds());
-    positionSlider.setBounds(isLeftDeck ? w * 3 : 0, h, w * 37, h);
+    positionSlider.setBounds(isLeftDeck ? w * 3 / 40 : 0, h / 2, w * 37 / 40, h / 2);
 }
 
 void WaveformDisplay::sliderValueChanged(juce::Slider *slider) {

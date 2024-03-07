@@ -49,6 +49,12 @@ void MainComponent::releaseResources() {
 //==============================================================================
 void MainComponent::paint(juce::Graphics &g) {
     g.fillAll(getLookAndFeel().findColour(juce::ResizableWindow::backgroundColourId));
+
+    juce::ColourGradient gradient(color1, static_cast<float>(getWidth()) * 2 / 5, 0, color2,
+                                  static_cast<float>(getWidth()) * 3 / 5, static_cast<float>(getHeight()) / 5, false);
+    g.setGradientFill(gradient);
+    g.setFont(juce::Font("Futura", 58.0f, juce::Font::italic));
+    g.drawText("Otodecks", getWidth() * 2 / 5, 0, getWidth()/5, getHeight() / 5, juce::Justification::centred, true);
 }
 
 void MainComponent::resized() {
@@ -56,5 +62,3 @@ void MainComponent::resized() {
     deckGUI2.setBounds(getWidth() / 2, 0, getWidth() / 2, getHeight());
     crossfader.setBounds(getWidth() * 2 / 5, getHeight() * 4 / 5, getWidth() / 5, getHeight() / 5);
 }
-
-

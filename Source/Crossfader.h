@@ -25,6 +25,7 @@ private:
 
     CustomLookAndFeel customLookAndFeel;
 
+    Label crossfaderLabel{"Crossfader", "Crossfader"};
     Slider crossfaderSlider;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Crossfader)

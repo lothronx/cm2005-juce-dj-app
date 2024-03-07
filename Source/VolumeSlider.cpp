@@ -23,15 +23,15 @@ void VolumeSlider::paint(juce::Graphics &g) {
 }
 
 void VolumeSlider::resized() {
-    auto h = getHeight() / 40;
+    auto h = getHeight() / 5;
     auto w = getWidth();
 
-    volLabel.setBounds(0, 0, w, h * 2);
-    volSlider.setBounds(w * 0, h * 3, w, h * 7);
+    volSlider.setBounds(w * 0, 0, w, h * 4);
+    volLabel.setBounds(0, h * 4, w, h);
 }
 
 void VolumeSlider::sliderValueChanged(juce::Slider *slider) {
-        player->setGain(slider->getValue());
+    player->setGain(slider->getValue());
 }
 
 void VolumeSlider::changeListenerCallback(juce::ChangeBroadcaster *source) {

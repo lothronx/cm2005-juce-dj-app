@@ -101,17 +101,17 @@ void CustomLookAndFeel::drawRotarySlider(Graphics &g, int x, int y, int width, i
 
     g.setColour(juce::Colours::white.withAlpha(0.9f));
     juce::Path pointer;
-    pointer.addRectangle(-2.0f, -radius, 4.0f, radius * 0.6f);
+    pointer.addRoundedRectangle(-3.0f, -radius, 6.0f, radius * 0.6f, 1.0f);
     pointer.applyTransform(juce::AffineTransform::rotation(angle).translated(centreX, centreY));
     g.fillPath(pointer);
 
-    g.setColour(Colours::darkgrey.withAlpha(0.5f));
-    juce::PathStrokeType strokeType(3.0f);
+    g.setColour(Colours::grey.withAlpha(0.5f));
+    juce::PathStrokeType strokeType(5.0f);
     juce::Path track;
-    track.addArc(rx - 4,
-                 ry - 4,
-                 rw + 8,
-                 rw + 8,
+    track.addArc(rx - 6,
+                 ry - 6,
+                 rw + 12,
+                 rw + 12,
                  rotaryStartAngle,
                  rotaryEndAngle,
                  true);
@@ -119,10 +119,10 @@ void CustomLookAndFeel::drawRotarySlider(Graphics &g, int x, int y, int width, i
 
     g.setColour(colour);
     juce::Path trackColored;
-    trackColored.addArc(rx - 4,
-                        ry - 4,
-                        rw + 8,
-                        rw + 8,
+    trackColored.addArc(rx - 6,
+                        ry - 6,
+                        rw + 12,
+                        rw + 12,
                         (rotaryStartAngle + rotaryEndAngle) / 2,
                         rotaryStartAngle + sliderPos * (rotaryEndAngle - rotaryStartAngle),
                         true);
