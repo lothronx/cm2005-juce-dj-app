@@ -4,20 +4,6 @@
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1">
   <MAINGROUP id="yEF2gk" name="MyDJApp">
     <GROUP id="{F5A0A3F4-60E3-9ECA-77EA-84FFC910620C}" name="Source">
-      <FILE id="fGg3oG" name="SpeedSlider.cpp" compile="1" resource="0" file="Source/SpeedSlider.cpp"/>
-      <FILE id="HGwu90" name="SpeedSlider.h" compile="0" resource="0" file="Source/SpeedSlider.h"/>
-      <FILE id="d6MG5V" name="Knobs.cpp" compile="1" resource="0" file="Source/Knobs.cpp"/>
-      <FILE id="OOVURC" name="Knobs.h" compile="0" resource="0" file="Source/Knobs.h"/>
-      <FILE id="T7cuTc" name="TransportControls.cpp" compile="1" resource="0"
-            file="Source/TransportControls.cpp"/>
-      <FILE id="Bm56Qy" name="TransportControls.h" compile="0" resource="0"
-            file="Source/TransportControls.h"/>
-      <FILE id="SHwHWG" name="JogWheel.cpp" compile="1" resource="0" file="Source/JogWheel.cpp"/>
-      <FILE id="MO76sC" name="JogWheel.h" compile="0" resource="0" file="Source/JogWheel.h"/>
-      <FILE id="WQNgJw" name="WaveformDisplay.cpp" compile="1" resource="0"
-            file="Source/WaveformDisplay.cpp"/>
-      <FILE id="C4nZMu" name="WaveformDisplay.h" compile="0" resource="0"
-            file="Source/WaveformDisplay.h"/>
       <FILE id="CecXfN" name="CustomLookAndFeel.cpp" compile="1" resource="0"
             file="Source/CustomLookAndFeel.cpp"/>
       <FILE id="wWBBqR" name="CustomLookAndFeel.h" compile="0" resource="0"
@@ -27,10 +13,26 @@
       <FILE id="U9r0E7" name="DJAudioPlayer.cpp" compile="1" resource="0"
             file="Source/DJAudioPlayer.cpp"/>
       <FILE id="SRHeSO" name="DJAudioPlayer.h" compile="0" resource="0" file="Source/DJAudioPlayer.h"/>
+      <FILE id="SHwHWG" name="JogWheel.cpp" compile="1" resource="0" file="Source/JogWheel.cpp"/>
+      <FILE id="MO76sC" name="JogWheel.h" compile="0" resource="0" file="Source/JogWheel.h"/>
+      <FILE id="d6MG5V" name="Knobs.cpp" compile="1" resource="0" file="Source/Knobs.cpp"/>
+      <FILE id="OOVURC" name="Knobs.h" compile="0" resource="0" file="Source/Knobs.h"/>
       <FILE id="QLHo8K" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
       <FILE id="qQedNu" name="MainComponent.cpp" compile="1" resource="0"
             file="Source/MainComponent.cpp"/>
       <FILE id="UlRvnW" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
+      <FILE id="fGg3oG" name="SpeedSlider.cpp" compile="1" resource="0" file="Source/SpeedSlider.cpp"/>
+      <FILE id="HGwu90" name="SpeedSlider.h" compile="0" resource="0" file="Source/SpeedSlider.h"/>
+      <FILE id="T7cuTc" name="TransportControls.cpp" compile="1" resource="0"
+            file="Source/TransportControls.cpp"/>
+      <FILE id="Bm56Qy" name="TransportControls.h" compile="0" resource="0"
+            file="Source/TransportControls.h"/>
+      <FILE id="fxL8wW" name="VUMeter.cpp" compile="1" resource="0" file="Source/VUMeter.cpp"/>
+      <FILE id="vabNkL" name="VUMeter.h" compile="0" resource="0" file="Source/VUMeter.h"/>
+      <FILE id="WQNgJw" name="WaveformDisplay.cpp" compile="1" resource="0"
+            file="Source/WaveformDisplay.cpp"/>
+      <FILE id="C4nZMu" name="WaveformDisplay.h" compile="0" resource="0"
+            file="Source/WaveformDisplay.h"/>
     </GROUP>
   </MAINGROUP>
   <MODULES>

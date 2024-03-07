@@ -8,6 +8,7 @@
 #include "TransportControls.h"
 #include "SpeedSlider.h"
 #include "Knobs.h"
+#include "VUMeter.h"
 
 class DeckGUI
         : public juce::Component,
@@ -42,6 +43,7 @@ private:
     TransportControls transportControls;
     SpeedSlider speedSlider;
     Knobs knobs;
+    VUMeter vuMeter;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(DeckGUI)
 };

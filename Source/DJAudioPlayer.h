@@ -1,3 +1,4 @@
+
 #pragma once
 
 #include <JuceHeader.h>
@@ -35,6 +36,8 @@ public:
 
     void setLowGain(float gainInDb);
 
+    float getRMS() const;
+
     void setLooping(bool shouldLoop);
 
     void start();
@@ -61,4 +64,7 @@ private:
     juce::dsp::ProcessorChain<Filter, Filter, Filter> processorChain;
 
     String fileName;
+
+    // Root Mean Square (RMS) Level
+    float rmsInDb {0.0f};
 };
