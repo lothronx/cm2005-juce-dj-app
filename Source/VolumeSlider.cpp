@@ -51,9 +51,6 @@ VolumeSlider::VolumeSlider(DJAudioPlayer *_player) : player{_player} {
     lowSlider.addListener(this);
 }
 
-VolumeSlider::~VolumeSlider() {
-}
-
 void VolumeSlider::paint(juce::Graphics &g) {
 
 }
