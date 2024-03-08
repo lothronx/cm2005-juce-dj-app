@@ -5,8 +5,6 @@ DJAudioPlayer::DJAudioPlayer(AudioFormatManager &_formatManager)
         : formatManager{_formatManager} {}
 
 void DJAudioPlayer::prepareToPlay(int samplesPerBlockExpected, double sampleRate) {
-    transportSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
-    resampleSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
 
     spec.sampleRate = sampleRate;
     spec.maximumBlockSize = static_cast<uint32>(samplesPerBlockExpected);
@@ -14,10 +12,14 @@ void DJAudioPlayer::prepareToPlay(int samplesPerBlockExpected, double sampleRate
 
     lowFilter.state = juce::dsp::IIR::Coefficients<float>::makeLowPass(sampleRate, 440.0);
     lowFilter.prepare(spec);
+
+    transportSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
+    resampleSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
+    filterSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
 }
 
 void DJAudioPlayer::getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToFill) {
-    *lowFilter.state = juce::dsp::IIR::ArrayCoefficients<float>::makeLowPass(spec.sampleRate, 440.0f, 20.2f);
+
     if (readerSource == nullptr) {
         bufferToFill.clearActiveBufferRegion();
         return;
@@ -27,7 +29,7 @@ void DJAudioPlayer::getNextAudioBlock(const juce::AudioSourceChannelInfo &buffer
         transportSource.setPosition(0);
     }
 
-    resampleSource.getNextAudioBlock(bufferToFill);
+    filterSource.getNextAudioBlock(bufferToFill);
 
     dsp::AudioBlock<float> block(*bufferToFill.buffer);
     dsp::ProcessContextReplacing<float> context(block);
@@ -40,6 +42,7 @@ void DJAudioPlayer::getNextAudioBlock(const juce::AudioSourceChannelInfo &buffer
 void DJAudioPlayer::releaseResources() {
     transportSource.releaseResources();
     resampleSource.releaseResources();
+    filterSource.releaseResources();
 }
 
 void DJAudioPlayer::loadURL(const juce::URL &audioURL) {
@@ -111,8 +114,8 @@ void DJAudioPlayer::setMidGain(float gainInDb) {
 }
 
 void DJAudioPlayer::setLowGain(float gainInDb) {
-    if (!approximatelyEqual(spec.sampleRate, 0.0)) {
-        *lowFilter.state = juce::dsp::IIR::ArrayCoefficients<float>::makeLowPass(spec.sampleRate, 440.0f, 20.2f);
+    if (!approximatelyEqual(spec.sampleRate, 0.0) && gainInDb >= 20.0f) {
+        filterSource.setCoefficients(IIRCoefficients::makeLowPass(spec.sampleRate, 440.0, 0.2));
     }
 }
 

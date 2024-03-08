@@ -61,6 +61,8 @@ private:
 
     ResamplingAudioSource resampleSource{&transportSource, false, 2};
 
+    IIRFilterAudioSource filterSource{&resampleSource, false};
+
     dsp::ProcessSpec spec{};
     juce::dsp::ProcessorDuplicator<juce::dsp::IIR::Filter<float>, juce::dsp::IIR::Coefficients<float>> lowFilter;
 
