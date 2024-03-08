@@ -5,8 +5,21 @@ DJAudioPlayer::DJAudioPlayer(AudioFormatManager &_formatManager)
         : formatManager{_formatManager} {}
 
 void DJAudioPlayer::prepareToPlay(int samplesPerBlockExpected, double sampleRate) {
+
+    spec.sampleRate = sampleRate;
+    spec.maximumBlockSize = static_cast<uint32>(samplesPerBlockExpected);
+    spec.numChannels = 2;
+    lowFilter.prepare(spec);
+//    midFilter.prepare(spec);
+//    highFilter.prepare(spec);
+
+    lowFilter.state = juce::dsp::IIR::Coefficients<float>::makeLowPass(sampleRate, 200, 1.0);
+//    midFilter.state = juce::dsp::IIR::Coefficients<float>::makePeakFilter(sampleRate, 1000, 1.0, 1.0);
+//    highFilter.state = juce::dsp::IIR::Coefficients<float>::makeHighShelf(sampleRate, 8000, 1.0, 1.0);
+
     transportSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
     resampleSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
+    filterSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
 }
 
 void DJAudioPlayer::getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToFill) {
@@ -17,7 +30,13 @@ void DJAudioPlayer::getNextAudioBlock(const juce::AudioSourceChannelInfo &buffer
 
     if (transportSource.hasStreamFinished()) transportSource.setPosition(0);
 
-    resampleSource.getNextAudioBlock(bufferToFill);
+    filterSource.getNextAudioBlock(bufferToFill);
+
+    dsp::AudioBlock<float> block(*bufferToFill.buffer);
+    dsp::ProcessContextReplacing<float> context(block);
+    lowFilter.process(context);
+//    midFilter.process(context);
+//    highFilter.process(context);
 
     float rms = bufferToFill.buffer->getRMSLevel(0, 0, bufferToFill.buffer->getNumSamples());
     rmsInDb = juce::Decibels::gainToDecibels(rms);
@@ -26,6 +45,7 @@ void DJAudioPlayer::getNextAudioBlock(const juce::AudioSourceChannelInfo &buffer
 void DJAudioPlayer::releaseResources() {
     transportSource.releaseResources();
     resampleSource.releaseResources();
+    filterSource.releaseResources();
 }
 
 void DJAudioPlayer::loadURL(const juce::URL &audioURL) {
@@ -86,6 +106,18 @@ void DJAudioPlayer::setGain(double gain) {
         transportSource.setGain(static_cast<float>(gain));
     }
     sendChangeMessage();
+}
+
+void DJAudioPlayer::setHighEQ(float gainInDb) {
+    highFilter.state = juce::dsp::IIR::Coefficients<float>::makeHighShelf(spec.sampleRate, 8000, 1.0, juce::Decibels::decibelsToGain(gainInDb));
+}
+
+void DJAudioPlayer::setMidEQ(float gainInDb) {
+    midFilter.state = juce::dsp::IIR::Coefficients<float>::makePeakFilter(spec.sampleRate, 1000, 1.0, juce::Decibels::decibelsToGain(gainInDb));
+}
+
+void DJAudioPlayer::setLowEQ(float gainInDb) {
+    lowFilter.state = juce::dsp::IIR::Coefficients<float>::makeLowShelf(spec.sampleRate, 200, 1.0, juce::Decibels::decibelsToGain(gainInDb));
 }
 
 float DJAudioPlayer::getRMS() const {

@@ -1,9 +1,11 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include <juce_dsp/juce_dsp.h>
 
 class DJAudioPlayer : public juce::AudioSource,
-                      public ChangeBroadcaster, private Timer{
+                      public ChangeBroadcaster,
+                      private Timer{
 
 public:
     explicit DJAudioPlayer(AudioFormatManager &_formatManager);
@@ -30,6 +32,12 @@ public:
 
     void setGain(double gain);
 
+    void setHighEQ(float gainInDb);
+
+    void setMidEQ(float gainInDb);
+
+    void setLowEQ(float gainInDb);
+
     float getRMS() const;
 
     void setLooping(bool shouldLoop);
@@ -54,11 +62,20 @@ private:
 
     ResamplingAudioSource resampleSource{&transportSource, false, 2};
 
+    IIRFilterAudioSource filterSource{&resampleSource, false};
+
+    juce::dsp::ProcessSpec spec {};
+
+    juce::dsp::ProcessorDuplicator<juce::dsp::IIR::Filter<float>,juce::dsp::IIR::Coefficients<float>> lowFilter;
+
+    juce::dsp::ProcessorDuplicator<juce::dsp::IIR::Filter<float>,juce::dsp::IIR::Coefficients<float>> midFilter;
+
+    juce::dsp::ProcessorDuplicator<juce::dsp::IIR::Filter<float>,juce::dsp::IIR::Coefficients<float>> highFilter;
+
     String fileName;
 
     // Root Mean Square (RMS) Level
     float rmsInDb {0.0f};
-
 
     void timerCallback() override;
 };
