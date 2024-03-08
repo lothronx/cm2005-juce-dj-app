@@ -18,6 +18,8 @@ public:
     void drawButtonBackground(juce::Graphics &g, juce::Button &button, const juce::Colour &backgroundColour,
                               bool isMouseOverButton, bool isButtonDown) override;
 
+    Font getTextButtonFont(TextButton &, int buttonHeight) override;
+
 private:
     Colour colour;
 

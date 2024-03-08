@@ -68,7 +68,7 @@ target_sources(MyDjApp
         Source/JogWheel.cpp
         Source/TransportControls.cpp
         Source/SpeedSlider.cpp
-        Source/VolumeSlider.cpp
+        Source/Knobs.cpp
         Source/VUMeter.cpp
         Source/Crossfader.cpp
 )

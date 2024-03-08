@@ -68,7 +68,7 @@ void CustomLookAndFeel::drawLinearSlider(Graphics &g, int x, int y, int width, i
                    floatWidth, 10.0f);
 
         g.setColour(colour2);
-        g.fillRect(floatX, floatY + (floatHeight / 2) - 5, jmin(sliderPos,floatWidth), 10.0f);
+        g.fillRect(floatX, floatY + (floatHeight / 2) - 5, jmin(sliderPos, floatWidth), 10.0f);
         g.setColour(colour1);
         g.fillRect(sliderPos, floatY + (floatHeight / 2) - 5, floatX + floatWidth - sliderPos, 10.0f);
 
@@ -144,3 +144,6 @@ CustomLookAndFeel::drawButtonBackground(juce::Graphics &g, juce::Button &button,
     g.fillRoundedRectangle(bounds, 10.0f);
 }
 
+Font CustomLookAndFeel::getTextButtonFont(juce::TextButton &, int buttonHeight) {
+    return Font(20.0f);
+}

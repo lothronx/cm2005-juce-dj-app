@@ -7,7 +7,7 @@
 #include "JogWheel.h"
 #include "TransportControls.h"
 #include "SpeedSlider.h"
-#include "VolumeSlider.h"
+#include "Knobs.h"
 #include "VUMeter.h"
 
 class DeckGUI
@@ -42,7 +42,7 @@ private:
     JogWheel jogWheel;
     TransportControls transportControls;
     SpeedSlider speedSlider;
-    VolumeSlider volumeSlider;
+    Knobs knobs;
     VUMeter vuMeter;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(DeckGUI)

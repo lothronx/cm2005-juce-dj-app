@@ -32,11 +32,11 @@ public:
 
     void setGain(double gain);
 
-    void setHighEQ(float gainInDb);
+    void setLowEQ(float gainInDb);
 
     void setMidEQ(float gainInDb);
 
-    void setLowEQ(float gainInDb);
+    void setHighEQ(float gainInDb);
 
     float getRMS() const;
 

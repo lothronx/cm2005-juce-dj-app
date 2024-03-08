@@ -7,7 +7,7 @@ DeckGUI::DeckGUI(DJAudioPlayer *_player,
                  const String &_deckName)
         : player{_player}, isLeftDeck{_deckName == "A"}, customLookAndFeel{_colour},
           waveformDisplay{formatManagerToUse, cacheToUse, _player, _deckName, _colour}, jogWheel{_player, _colour},
-          transportControls{_player, &waveformDisplay}, speedSlider{_player}, volumeSlider{_player},
+          transportControls{_player, &waveformDisplay}, speedSlider{_player}, knobs{_player},
           vuMeter{_player, _colour} {
 
     setLookAndFeel(&customLookAndFeel);
@@ -16,7 +16,7 @@ DeckGUI::DeckGUI(DJAudioPlayer *_player,
     addAndMakeVisible(jogWheel);
     addAndMakeVisible(transportControls);
     addAndMakeVisible(speedSlider);
-    addAndMakeVisible(volumeSlider);
+    addAndMakeVisible(knobs);
     addAndMakeVisible(vuMeter);
 }
 
@@ -46,9 +46,9 @@ void DeckGUI::resized() {
 
     speedSlider.setBounds(isLeftDeck ? w * 33 / 50 : w * 13 / 50, h * 6 / 20, w * 4 / 50, h * 9 / 20);
 
-    vuMeter.setBounds(isLeftDeck ? w * 42 / 50 : w * 2 / 50, h * 5 / 20, w * 6 / 50, h * 7 / 20);
+    vuMeter.setBounds(isLeftDeck ? w * 49 / 50 - 5 : 5, h * 5 / 20, w / 50, h * 11 / 20);
 
-    volumeSlider.setBounds(isLeftDeck ? w * 40 / 50 : 0, h * 13 / 20, w * 10 / 50, h * 4 / 20);
+    knobs.setBounds(isLeftDeck ? w * 40 / 50 : 0, h * 4 / 20, w * 10 / 50, h * 12 / 20);
 }
 
 bool DeckGUI::isInterestedInFileDrag(const StringArray &files) {
