@@ -92,7 +92,7 @@ private:
     String fileName;
 
     // Root Mean Square (RMS) Level
-    float rmsInDb{0.0f};
+    float rmsInDb{-100.0f};
 
     void timerCallback() override;
 };
