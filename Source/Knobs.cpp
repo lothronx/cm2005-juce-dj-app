@@ -1,8 +1,16 @@
+/////////////////////// I wrote the following code //////////////////////
+
 #include "Knobs.h"
 
 //==============================================================================
 Knobs::Knobs(DJAudioPlayer *_player) : player{_player} {
-
+    // Initialize the 4 knobs: volume, EQ high, EQ mid, and EQ low.
+    // The labels are centered and attached to the sliders on the top.
+    // The sliders are all rotary sliders with no text box.
+    // For the volume slider, the range is 0% to 100%.
+    // For the EQ sliders, the range is -24Hz to 24Hz.
+    // For each slider, the initial value is set to the middle of the range.
+    // Double-clicking on a slider will reset it to the initial value.
     volLabel.setJustificationType(Justification::centred);
     volLabel.attachToComponent(&volSlider, false);
     volSlider.setRange(0, 1.0);
@@ -51,14 +59,14 @@ Knobs::Knobs(DJAudioPlayer *_player) : player{_player} {
     lowSlider.addListener(this);
 }
 
-void Knobs::paint(juce::Graphics &g) {
-
-}
+//==============================================================================
+void Knobs::paint(juce::Graphics &g) {}
 
 void Knobs::resized() {
     auto h = getHeight();
     auto w = getWidth();
 
+    // The subcomponents are placed vertically from top to bottom with some space between them.
     volLabel.setBounds(0, 0, w, h * 2/40);
     volSlider.setBounds( 0, h * 3/40, w, h * 7/40);
     highLabel.setBounds(0, h * 10/40, w, h * 2/40);
@@ -70,6 +78,7 @@ void Knobs::resized() {
 
 }
 
+//==============================================================================
 void Knobs::sliderValueChanged(juce::Slider *slider) {
     if (slider == &volSlider) {
         player->setGain(slider->getValue());
@@ -90,3 +99,5 @@ void Knobs::changeListenerCallback(juce::ChangeBroadcaster *source) {
         volSlider.setValue(player->getGain());
     }
 }
+
+//////////////////////////// End of my code ////////////////////////////

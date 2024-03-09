@@ -1,17 +1,19 @@
 #include "JogWheel.h"
 
+//==============================================================================
 JogWheel::JogWheel(DJAudioPlayer *_player, const Colour &_colour)
         : player{_player}, colour{_colour} {
 
     player->addChangeListener(this);
 
-    startTimer(1000 / 60);
+    startTimer(1000 / 60); // 60fps
 }
 
 JogWheel::~JogWheel() {
     stopTimer();
 }
 
+//==============================================================================
 void JogWheel::paint(juce::Graphics &g) {
     auto centreX = static_cast<float>(getWidth()) / 2;
     auto centreY = static_cast<float>(getHeight()) / 2;
@@ -22,9 +24,9 @@ void JogWheel::paint(juce::Graphics &g) {
 
 }
 
-void JogWheel::resized() {
-}
+void JogWheel::resized() {}
 
+//==============================================================================
 void JogWheel::timerCallback() {
     if (isPlaying) {
         rotationAngle += rotationSpeed;
@@ -37,6 +39,7 @@ void JogWheel::changeListenerCallback(juce::ChangeBroadcaster *source) {
     isPlaying = player->isPlaying();
 }
 
+//==============================================================================
 void JogWheel::drawWheel(juce::Graphics &g, const float centreX, const float centreY) {
     auto radius = static_cast<float>(jmin(getWidth(), getHeight())) / 2 - 5;
 
