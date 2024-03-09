@@ -3,7 +3,8 @@
 #include "Knobs.h"
 
 //==============================================================================
-Knobs::Knobs(DJAudioPlayer *_player) : player{_player} {
+Knobs::Knobs(DJAudioPlayer *_player)
+        : player{_player} {
     // Initialize the 4 knobs: volume, EQ high, EQ mid, and EQ low.
     // The labels are centered and attached to the sliders on the top.
     // The sliders are all rotary sliders with no text box.
@@ -67,14 +68,14 @@ void Knobs::resized() {
     auto w = getWidth();
 
     // The subcomponents are placed vertically from top to bottom with some space between them.
-    volLabel.setBounds(0, 0, w, h * 2/40);
-    volSlider.setBounds( 0, h * 3/40, w, h * 7/40);
-    highLabel.setBounds(0, h * 10/40, w, h * 2/40);
-    highSlider.setBounds( 0, h * 13/40, w, h * 7/40);
-    midLabel.setBounds(0, h * 20/40, w, h * 2/40);
-    midSlider.setBounds(0, h * 23/40, w, h * 7/40);
-    lowLabel.setBounds(0, h * 30/40, w, h * 2/40);
-    lowSlider.setBounds(0, h * 33/40, w, h * 7/40);
+    volLabel.setBounds(0, 0, w, h * 2 / 40);
+    volSlider.setBounds(0, h * 3 / 40, w, h * 7 / 40);
+    highLabel.setBounds(0, h * 10 / 40, w, h * 2 / 40);
+    highSlider.setBounds(0, h * 13 / 40, w, h * 7 / 40);
+    midLabel.setBounds(0, h * 20 / 40, w, h * 2 / 40);
+    midSlider.setBounds(0, h * 23 / 40, w, h * 7 / 40);
+    lowLabel.setBounds(0, h * 30 / 40, w, h * 2 / 40);
+    lowSlider.setBounds(0, h * 33 / 40, w, h * 7 / 40);
 
 }
 
