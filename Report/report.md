@@ -4,6 +4,39 @@ Name: Yue Wu
 
 Student ID: 210312838
 
+- [OOP Final Project Report](#oop-final-project-report)
+  - [Introduction](#introduction)
+  - [Code structure and user interface layout](#code-structure-and-user-interface-layout)
+  - [R1: Basic program functionality](#r1-basic-program-functionality)
+    - [R1A: can load audio files into audio players (Load button \& Drag-and-drop)](#r1a-can-load-audio-files-into-audio-players-load-button--drag-and-drop)
+    - [R1B: can play two or more tracks (Play/Pause button)](#r1b-can-play-two-or-more-tracks-playpause-button)
+    - [R1C: can mix the tracks by varying each of their volumes (Volume slider)](#r1c-can-mix-the-tracks-by-varying-each-of-their-volumes-volume-slider)
+    - [R1D: can speed up and slow down the tracks (Speed slider)](#r1d-can-speed-up-and-slow-down-the-tracks-speed-slider)
+  - [R2 Customizing the user interface](#r2-customizing-the-user-interface)
+    - [R2A: GUI layout is significantly different from the basic DeckGUI shown in class](#r2a-gui-layout-is-significantly-different-from-the-basic-deckgui-shown-in-class)
+      - [1. Redesign the general layout](#1-redesign-the-general-layout)
+      - [2. Refactor the code structure](#2-refactor-the-code-structure)
+      - [3. Define a color scheme](#3-define-a-color-scheme)
+      - [4. Create a custom look and feel class](#4-create-a-custom-look-and-feel-class)
+      - [5. Overlap the position slider and the waveform display](#5-overlap-the-position-slider-and-the-waveform-display)
+      - [6. Make buttons toggle-able and add color indication of the button state](#6-make-buttons-toggle-able-and-add-color-indication-of-the-button-state)
+      - [7. Add new components to the GUI](#7-add-new-components-to-the-gui)
+    - [R2B: GUI code has at least one event listener that was not in the original codebase seen in class.](#r2b-gui-code-has-at-least-one-event-listener-that-was-not-in-the-original-codebase-seen-in-class)
+      - [1. User event listeners](#1-user-event-listeners)
+      - [2. State change listeners](#2-state-change-listeners)
+  - [R3](#r3)
+    - [Research and analysis of a real DJ program](#research-and-analysis-of-a-real-dj-program)
+    - [Design of the new features](#design-of-the-new-features)
+    - [Implementation of the new features](#implementation-of-the-new-features)
+      - [1. The 3-band equalizer](#1-the-3-band-equalizer)
+      - [2. The VU meter](#2-the-vu-meter)
+      - [3. The jog wheel](#3-the-jog-wheel)
+      - [4. The crossfader](#4-the-crossfader)
+      - [5. The waveform display upgrade](#5-the-waveform-display-upgrade)
+      - [6. Logo](#6-logo)
+  - [Conclusion](#conclusion)
+
+
 ## Introduction
 
 ![The user interface of Otodecks](0.png)
@@ -156,17 +189,17 @@ Between the two decks, there is a mixer section which contains the following com
 
 Based on the research and analysis of VirtualDJ, I decide to add the following new features to Otodecks:
 
-#### 1. Add a 3-band equalizer that allows users to boost or cut the bass, mid, and treble of a track.
+1. Add a 3-band equalizer that allows users to boost or cut the bass, mid, and treble of a track.
 
-#### 2. Add a VU meter that provides visual feedback on the volume level of a track in real-time.
+2. Add a VU meter that provides visual feedback on the volume level of a track in real-time.
 
-#### 3. Add a jog wheel that rotates when the track is playing and stops when the track is paused.
+3. Add a jog wheel that rotates when the track is playing and stops when the track is paused.
 
-#### 4. Add a crossfader that allows users to blend two tracks together by adjusting their volume ratio.
+4. Add a crossfader that allows users to blend two tracks together by adjusting their volume ratio.
 
-#### 5. Upgrade the original waveform display to include more information about the track: the deck name, the file name, the elapsed time, and an interactive waveform.
+5. Upgrade the original waveform display to include more information about the track: the deck name, the file name, the elapsed time, and an interactive waveform.
 
-#### 6. Add a logo to the application.
+6. Add a logo to the application.
 
 Referring to the layout of VirtualDJ, I design the general layout of Otodecks as follows:
 
