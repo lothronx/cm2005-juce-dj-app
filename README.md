@@ -8,7 +8,15 @@
 
 A feature-rich DJ application built with JUCE framework as part of my Object-Oriented Programming coursework. This project demonstrates advanced C++ programming, real-time audio processing, and modern GUI design principles.
 
-![Otodecks Interface](Report/0.png)
+## 🎬 Live Demo
+
+<div align="center">
+
+[![Watch Demo](https://img.shields.io/badge/Watch-Demo-red?style=for-the-badge&logo=youtube)](https://www.youtube.com/watch?v=2rwMRsjn-B4&ab_channel=WuYue)
+
+[![Watch Demo](Report/0.png)](https://www.youtube.com/watch?v=2rwMRsjn-B4&ab_channel=WuYue)
+
+</div>
 
 ## ✨ Features
 
